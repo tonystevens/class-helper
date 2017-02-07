@@ -1,0 +1,7 @@
+<template name="Courses_show_page">
+  {{#if coursesIdArray}}
+    {{#each courseId in coursesIdArray}}
+      {{> Courses_show (courseArgs courseId)}}
+    {{/each}}
+  {{/if}}
+</template>

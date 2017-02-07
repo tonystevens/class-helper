@@ -1,16 +1,15 @@
-import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export Classes = new Mongo.Collection('Classes');
+export const Courses = new Mongo.Collection('Courses');
 
-
-Classes.deny({
+Courses.deny({
   insert() { return true; },
   update() { return true; },
-  delete() { return true; },
+  remove() { return true; },
 });
 
-Classes.schema = new SimpleSchema({
+Courses.schema = new SimpleSchema({
   _id: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
@@ -37,20 +36,14 @@ Classes.schema = new SimpleSchema({
   }
 });
 
-Classes.attachSchema(Classes.schema);
+Courses.attachSchema(Courses.schema);
 
-Classes.publicFields = {
+Courses.publicFields = {
   name: 1,
   incompleteCount: 1,
   userId: 1,
   students: 1,
   createAt: 1,
 };
-
-Classes.helpers({
-  editableBy(userId) {
-    return this.userId === userId;
-  },
-});
 
 
