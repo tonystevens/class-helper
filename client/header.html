@@ -1,0 +1,10 @@
+<template name="header">
+	<header class="bar bar-nav">
+		<h1 class="title">Class Helper</h1>
+      {{#if currentUser}}
+        <span class="icon icon-download account-logout pull-right"></span>
+      {{else}}
+        <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
+      {{/if}}
+	</header>
+</template>
