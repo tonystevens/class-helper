@@ -1,0 +1,12 @@
+<template name="appLayout">
+  {{> Template.dynamic template=top}}
+  <div id="app-content-container" class="content">
+    {{#momentum plugin="fade"}}
+      {{#if Template.subscriptionsReady}}
+        {{> Template.dynamic template=main}}
+      {{else}}
+        {{> App_loading}}
+      {{/if}}
+    {{/momentum}}
+  </div>
+</template>
