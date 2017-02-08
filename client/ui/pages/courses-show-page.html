@@ -2,8 +2,19 @@
   {{#momentum plugin="fade"}}
     <div class="card">
       <ul class="table-view">
-        <li class="table-view-cell table-view-divider">Owned</li>
-        {{#each course in coursesArray}}
+        <li class="table-view-cell table-view-divider">Owned
+          <button class="btn btn-outlined pull-right"><span class="icon icon-plus"></span></button></li>
+        {{#each course in ownedCoursesArray}}
+          {{> Courses_show (courseArgs course)}}
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="card">
+      <ul class="table-view">
+        <li class="table-view-cell table-view-divider">Joined
+          <button class="btn btn-outlined pull-right"><span class="icon icon-plus"></span></button></li>
+        {{#each course in joinedCoursesArray}}
           {{> Courses_show (courseArgs course)}}
         {{/each}}
       </ul>

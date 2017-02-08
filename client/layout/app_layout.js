@@ -8,11 +8,11 @@ import './app_layout.html';
 
 const CONNECTION_ISSUE_TIMEOUT = 5000;
 
-const showConnectionIssue = new ReactiveVar("false");
+// const showConnectionIssue = new ReactiveVar("false");
 
 Meteor.startup(() => {
   setTimeout(() => {
-    showConnectionIssue(true);
+    // showConnectionIssue(true);
   }, CONNECTION_ISSUE_TIMEOUT);
 });
 
