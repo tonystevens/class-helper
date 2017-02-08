@@ -1,7 +1,12 @@
 <template name="Courses_show_page">
-  {{#if coursesIdArray}}
-    {{#each courseId in coursesIdArray}}
-      {{> Courses_show (courseArgs courseId)}}
-    {{/each}}
-  {{/if}}
+  {{#momentum plugin="fade"}}
+    <div class="card">
+      <ul class="table-view">
+        <li class="table-view-cell table-view-divider">Owned</li>
+        {{#each course in coursesArray}}
+          {{> Courses_show (courseArgs course)}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/momentum}}
 </template>

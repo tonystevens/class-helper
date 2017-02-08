@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../header.js';
@@ -13,4 +14,8 @@ Meteor.startup(() => {
   setTimeout(() => {
     showConnectionIssue(true);
   }, CONNECTION_ISSUE_TIMEOUT);
+});
+
+Template.appLayout.onCreated(function appLayoutOnCreated() {
+  this.subscribe('courses.private');
 });
