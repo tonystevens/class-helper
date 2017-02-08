@@ -23,3 +23,10 @@ FlowRouter.route('/root', {
     }
   }
 });
+
+FlowRouter.route('/courses', {
+  name: 'Courses.show',
+  action() {
+    BlazeLayout.render('appLayout', { top: 'header', main: 'Courses_show_page' });
+  },
+});
