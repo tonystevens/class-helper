@@ -9,7 +9,7 @@ import './courses-show-page.html';
 import '../components/courses-show.js';
 
 Template.Courses_show_page.onCreated(function coursesShowPageOnCreated() {
-    this.getCourseId = () => FlowRouter.getParam('_id');
+    // this.getCourseId = () => FlowRouter.getParam('_id');
   }
 );
 
@@ -23,9 +23,13 @@ Template.Courses_show_page.onRendered(function coursesShowPageOnRendered() {
 });
 
 Template.Courses_show_page.helpers({
-  coursesArray() {
-    const courses = Courses.find({ userId: this.userId }, { sort: {createdAt: -1}});
-    return courses;
+  ownedCoursesArray() {
+    const ownedCourses = Courses.find({ userId: Meteor.userId() }, { sort: {createdAt: -1}});
+    return ownedCourses;
+  },
+  joinedCoursesArray() {
+    const joinedCourses = Courses.find({ students: Meteor.userId() }, { sort: {createdAt: -1}});
+    return joinedCourses;
   },
   courseArgs(course) {
     const instance = Template.instance();

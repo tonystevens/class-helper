@@ -28,8 +28,3 @@ AccountsTemplates.configureRoute('resetPwd', {
   name: 'resetPwd',
   path: '/reset-password',
 });
-
-AccountsTemplates.configureRoute('signOut', {
-  name: 'signout',
-  path: '/signout',
-});
