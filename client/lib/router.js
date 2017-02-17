@@ -30,3 +30,11 @@ FlowRouter.route('/courses', {
     BlazeLayout.render('appLayout', { top: 'header', main: 'Courses_show_page' });
   },
 });
+
+// FlowRouter.route('/new_course', {
+//   name: 'Course.new',
+//   action() {
+//     console.log('in new course render');
+//     BlazeLayout.render('appLayout', { main: 'new_course' });
+//   }
+// });

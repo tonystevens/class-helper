@@ -88,6 +88,7 @@ spacebars-compiler@1.1.0
 srp@1.0.10
 standard-minifier-css@1.3.2
 standard-minifier-js@1.2.1
+templates:forms@2.1.4
 templating@1.3.0
 templating-compiler@1.3.0
 templating-runtime@1.3.0
