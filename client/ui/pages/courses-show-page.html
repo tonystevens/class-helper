@@ -3,7 +3,7 @@
     <div class="card">
       <ul class="table-view">
         <li class="table-view-cell table-view-divider">Owned
-          <button class="btn btn-outlined pull-right"><span class="icon icon-plus"></span></button></li>
+          <button class="btn btn-outlined pull-right add-owned-course"><span class="icon icon-plus"></span></button></li>
         {{#each course in ownedCoursesArray}}
           {{> Courses_show (courseArgs course)}}
         {{/each}}
@@ -20,4 +20,23 @@
       </ul>
     </div>
   {{/momentum}}
+
+  <div id="new_course_modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right" href="#new_course_modal"></a>
+      <h1 class="title">Add New Course</h1>
+    </header>
+    <div class="content new_course_content">
+      <!--<form>-->
+        {{#modalForm schema=schema action=save data=formData}}
+          {{> textField field='name'}}
+          {{> textField field='description'}}
+          <!--<button type="submit" class="btn btn-positive btn-block">Save</button>-->
+          <!--<button type="button" class="btn btn-block btn-outlined close-add-owned-course">Cancel</button>-->
+        {{/modalForm}}
+        <!--<div class="bar bar-standard bar-footer">-->
+        <!--</div>-->
+      <!--</form>-->
+    </div>
+  </div>
 </template>

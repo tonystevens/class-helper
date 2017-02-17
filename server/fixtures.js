@@ -6,27 +6,32 @@ Meteor.startup(() => {
     if ( Courses.find().count() === 0 ) {
       const data = [{
         name: 'Mathematics',
-        userId: 'SobRFPHTd84qKQm3b',
+        description: 'Fundamental Algebra from 1 to 100',
+        userId: 'bSeo4XEXh6TvHtjC6',
         students: [
           'QYEEce7LNB3rArzZt'
         ],
+
       }, {
         name: 'Music',
-        userId: 'SobRFPHTd84qKQm3b',
+        description: 'Hip hop fasion vs classic style',
+        userId: 'bSeo4XEXh6TvHtjC6',
         students: [
           'QYEEce7LNB3rArzZt'
         ],
       }, {
         name: 'English',
+        description: 'Advanced English with 1 on 1 oral practice',
         userId: 'QYEEce7LNB3rArzZt',
         students: [
-          'SobRFPHTd84qKQm3b', 'Nv5FTAneqNbmJLxh7'
+          'bSeo4XEXh6TvHtjC6', 'Nv5FTAneqNbmJLxh7'
         ],
       }, {
         name: 'Computer Science',
+        description: 'Introduction to Algorithm',
         userId: 'Nv5FTAneqNbmJLxh7',
         students: [
-          'SobRFPHTd84qKQm3b', 'QYEEce7LNB3rArzZt'
+          'bSeo4XEXh6TvHtjC6', 'QYEEce7LNB3rArzZt'
         ],
       }];
       let timestamp = (new Date()).getTime();
@@ -34,7 +39,7 @@ Meteor.startup(() => {
       data.forEach((course) => {
         Courses.insert({
           name: course.name,
-          incompleteCount: course.students.length,
+          description: course.description,
           userId: course.userId,
           createAt: new Date(timestamp),
           students: course.students
