@@ -1,0 +1,21 @@
+<template name="coursesIndex">
+  {{#momentum plugin="fade"}}
+      <div class="card">
+      <ul class="table-view">
+        <li class="table-view-cell table-view-divider">Owned
+          <button class="btn pull-right add-owned-course"><span class="icon icon-plus"></span></button></li>
+        {{#each course in ownedCoursesArray}}
+          <li class="table-view-cell">
+            <a href="{{pathFor 'courses.show' _id=course._id}}" data-nav-direction="right" class="navigate-right">
+            {{course.name}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/momentum}}
+
+  <div id="new_course_modal" class="modal">
+    {{> courseModal }}
+  </div>
+</template>

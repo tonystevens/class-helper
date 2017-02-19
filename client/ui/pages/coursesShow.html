@@ -1,0 +1,44 @@
+<template name="coursesShow">
+  <header class="bar bar-nav">
+    <h1 class="title">{{course.name}}</h1>
+    <a href="{{pathFor 'courses.index'}}" data-nav-direction="left" class="btn btn-link pull-left">
+      <span class="icon icon-left"></span>Courses
+    </a>
+  </header>
+
+  <div class="content">
+    <div class="card">
+      <ul class="table-view">
+        <li class="table-view-cell">
+          <p>Name: <strong>{{course.name}}</strong></p>
+          <p>Description: <strong>{{course.description}}</strong></p>
+          <p>Created At: <strong>{{course.createAt}}</strong></p>
+          <p>Number of Students: <strong>{{studentsCount}}</strong></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bar bar-footer">
+    <button type="button" class="btn btn-link btn-nav pull-left" data-toggle-modal="edit-course-modal">
+      <span class="icon icon-compose"></span>
+    </button>
+    <button type="button" class="btn btn-link btn-nav pull-right">
+      <span class="icon icon-trash delete-course"></span>
+    </button>
+  </div>
+
+  <div id="edit-course-modal" class="modal">
+    <header class="bar bar-nav">
+      <button type="button" class="btn btn-link btn-nav pull-left" data-toggle-modal="edit-course-modal">Cancel</button>
+      <button type="button" class="btn btn-link btn-nav pull-right submit-course-edit" data-toggle-modal="edit-course-modal">Done</button>
+      <h1 class="title">Edit Course</h1>
+    </header>
+    <div class="content">
+      <form>
+        <input type="text" name="course_name" value="{{course.name}}">
+        <textarea name="course_description" value="{{course.description}}" rows="5"></textarea>
+      </form>
+    </div>
+  </div>
+</template>
