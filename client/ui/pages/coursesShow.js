@@ -25,17 +25,20 @@ Template.coursesShow.helpers({
   course: function() {
     return singleCourse.get();
   },
-  studentsCount: function(course) {
-    return course && course.students && course.students > 0 ? course.students.length : 0;
+  studentIds: function() {
+    return singleCourse.get() !== undefined ? singleCourse.get().students : [];
   },
+  getStudentNameById: function(studentId) {
+    const student = Meteor.users.findOne({_id: studentId});
+    if (student === undefined) {
+      return '';
+    } else {
+      return student.profile.firstName + ', ' + student.profile.lastName;
+    }
+  }
 });
 
 Template.coursesShow.events({
-  'click [data-toggle-modal]': function(event) {
-    const targetModalId = $(event.currentTarget).data('toggle-modal');
-    const $targetModal = $('#' + targetModalId);
-    $targetModal.toggleClass("active");
-  },
   'click .submit-course-edit': function() {
     const course = getUpdateCourseAttributes();
     const updateCourseAttributes = {
@@ -58,7 +61,7 @@ Template.coursesShow.events({
       deleteCourse(singleCourse.get()._id);
       FlowRouter.go('courses.index');
     });
-  }
+  },
 });
 
 function getUpdateCourseAttributes() {

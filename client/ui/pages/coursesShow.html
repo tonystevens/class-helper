@@ -1,6 +1,6 @@
 <template name="coursesShow">
   <header class="bar bar-nav">
-    <h1 class="title">{{course.name}}</h1>
+    <h1 class="title">{{truncate course.name 12}}</h1>
     <a href="{{pathFor 'courses.index'}}" data-nav-direction="left" class="btn btn-link pull-left">
       <span class="icon icon-left"></span>Courses
     </a>
@@ -13,7 +13,12 @@
           <p>Name: <strong>{{course.name}}</strong></p>
           <p>Description: <strong>{{course.description}}</strong></p>
           <p>Created At: <strong>{{course.createAt}}</strong></p>
-          <p>Number of Students: <strong>{{studentsCount}}</strong></p>
+          <p>Students:
+            {{#each studentId in studentIds}}
+              <strong>{{getStudentNameById studentId}}</strong><br/>
+            {{/each}}
+          </p>
+          <p>Course Code: <strong>{{course.code}}</strong></p>
         </li>
       </ul>
     </div>
@@ -34,7 +39,7 @@
       <button type="button" class="btn btn-link btn-nav pull-right submit-course-edit" data-toggle-modal="edit-course-modal">Done</button>
       <h1 class="title">Edit Course</h1>
     </header>
-    <div class="content">
+    <div class="content edit-course-content">
       <form>
         <input type="text" name="course_name" value="{{course.name}}">
         <textarea name="course_description" value="{{course.description}}" rows="5"></textarea>

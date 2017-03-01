@@ -1,21 +1,50 @@
 <template name="coursesIndex">
   {{#momentum plugin="fade"}}
+    {{#if isInRole 'teacher'}}
+        <div class="card">
+        <ul class="table-view">
+          <li class="table-view-cell table-view-divider">Owned
+            <button class="btn pull-right add-owned-course" data-toggle-modal="new-course-modal"><span class="icon icon-plus"></span></button></li>
+          {{#each course in ownedCoursesArray}}
+            <li class="table-view-cell">
+              <a href="{{pathFor 'courses.show' _id=course._id}}" data-nav-direction="right" class="navigate-right">
+              {{course.name}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{else if isInRole 'student'}}
       <div class="card">
-      <ul class="table-view">
-        <li class="table-view-cell table-view-divider">Owned
-          <button class="btn pull-right add-owned-course"><span class="icon icon-plus"></span></button></li>
-        {{#each course in ownedCoursesArray}}
-          <li class="table-view-cell">
-            <a href="{{pathFor 'courses.show' _id=course._id}}" data-nav-direction="right" class="navigate-right">
-            {{course.name}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
+        <ul class="table-view">
+          <li class="table-view-cell table-view-divider">Joined
+            <button class="btn pull-right add-joined-course" data-toggle-modal="join-course-modal"><span class="icon icon-plus"></span></button></li>
+          {{#each course in joinedCoursesArray}}
+            <li class="table-view-cell">
+              <a class="navigate-right">
+                {{course.name}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
   {{/momentum}}
 
-  <div id="new_course_modal" class="modal">
-    {{> courseModal }}
+  <div id="new-course-modal" class="modal">
+    {{> newCourseModal }}
+  </div>
+
+  <div id="join-course-modal" class="modal">
+    <header class="bar bar-nav">
+      <button type="button" class="btn btn-link btn-nav pull-left" data-toggle-modal="join-course-modal">Cancel</button>
+      <button type="button" class="btn btn-link btn-nav pull-right submit-join-course" data-toggle-modal="join-course-modal">Done</button>
+      <h1 class="title">Join Course</h1>
+    </header>
+    <div class="content join_course_content">
+      <form>
+        <input type="text" name="course_code" placeholder="Enter course code">
+      </form>
+    </div>
   </div>
 </template>

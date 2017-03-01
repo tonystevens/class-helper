@@ -31,9 +31,12 @@ zimme:active-route
 accounts-password@1.3.3
 useraccounts:ratchet
 useraccounts:flow-routing
+alanning:roles
 
 percolate:momentum
 
 aldeed:simple-schema
 aldeed:collection2
 kevohagan:sweetalert
+
+mrt:underscore-string-latest

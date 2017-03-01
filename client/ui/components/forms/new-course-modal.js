@@ -2,9 +2,9 @@ import { Template } from 'meteor/templating';
 
 import { insertCourse } from '../../../../lib/methods';
 
-import './course-modal.html';
+import './new-course-modal.html';
 
-Template.courseModal.events({
+Template.newCourseModal.events({
   'submit form': function(e) {
     e.preventDefault();
 
@@ -13,7 +13,6 @@ Template.courseModal.events({
     insertCourse(course);
 
     swal("Good job!", "You added a new course!", "success");
-    $('#new_course_modal').removeClass('active');
   }
 });
 
