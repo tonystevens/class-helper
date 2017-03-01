@@ -17,7 +17,7 @@ FlowRouter.route('/root', {
   name: 'App.root',
   action() {
     if (Meteor.user()) {
-      BlazeLayout.render('appLayout', {top: 'header', main: 'app_rootRedirector'});
+      BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
     } else {
       FlowRouter.go('App.home');
     }
@@ -34,6 +34,6 @@ FlowRouter.route('/courses', {
 FlowRouter.route('/courses/:_id', {
   name: 'courses.show',
   action() {
-    BlazeLayout.render('coursesShow');
+    BlazeLayout.render('appLayout', { main: 'coursesShow' });
   },
 });
