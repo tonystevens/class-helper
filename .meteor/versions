@@ -24,6 +24,7 @@ callback-hook@1.0.10
 check@1.2.4
 coffeescript@1.0.17
 cosmos:browserify@0.9.4
+dandv:caret-position@2.1.1
 ddp@1.2.5
 ddp-client@1.2.9
 ddp-common@1.2.8
@@ -37,6 +38,7 @@ ejson@1.0.13
 email@1.1.18
 es5-shim@4.6.15
 fastclick@1.0.13
+fortawesome:fontawesome@4.7.0
 geojson-utils@1.0.10
 hot-code-push@1.0.4
 html-tools@1.0.11
@@ -59,6 +61,7 @@ meteor-base@1.0.4
 minifier-css@1.2.15
 minifier-js@1.2.15
 minimongo@1.0.19
+mizzao:autocomplete@0.5.1
 mobile-experience@1.0.4
 mobile-status-bar@1.0.13
 modules@0.7.7
