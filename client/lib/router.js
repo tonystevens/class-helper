@@ -37,3 +37,17 @@ FlowRouter.route('/courses/:_id', {
     BlazeLayout.render('appLayout', { main: 'coursesShow' });
   },
 });
+
+FlowRouter.route('/messages', {
+  name: 'messages.index',
+  action() {
+    BlazeLayout.render('appLayout', { top: 'messageIndexHeader', main: 'messagesIndex' });
+  }
+});
+
+FlowRouter.route('/new-channel', {
+  name: 'newChannel',
+  action() {
+    BlazeLayout.render('appLayout', { top: 'newChannelHeader', main: 'newChannelPage' });
+  }
+});

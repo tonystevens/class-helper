@@ -1,0 +1,19 @@
+<template name="newChannelPage">
+  {{#if isInRole 'teacher'}}
+    <div class="input-group">
+      <input type="text" id="channel-subject" placeholder="Subject:">
+      {{> inputAutocomplete settings=settings id="autocomplete-input" class="recipient-text" placeholder="To: "}}
+    </div>
+    <div id="new-channel-message">
+      <input type="text" id="new-channel-message-text"><i class="icon fa fa-paper-plane-o" id="new-channel-message-send"></i>
+    </div>
+  {{/if}}
+</template>
+
+<template name="messageRecipientPill">
+  <span class="label">{{profile.firstName}}, {{profile.lastName}}</span>
+</template>
+
+<template name="serverNoMatch">
+  <span class="icon icon-info" style="color: red;"></span>No such user: <span style="color: blue;"><b>{{getFilter}}</b>!</span>
+</template>

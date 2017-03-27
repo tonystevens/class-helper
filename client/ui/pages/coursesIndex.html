@@ -4,7 +4,7 @@
         <div class="card">
         <ul class="table-view">
           <li class="table-view-cell table-view-divider">Owned
-            <button class="btn pull-right add-owned-course" data-toggle-modal="new-course-modal"><span class="icon icon-plus"></span></button></li>
+            <a class="icon btn fa fa-plus-circle pull-right add-owned-course" data-toggle-modal="new-course-modal"></a></li>
           {{#each course in ownedCoursesArray}}
             <li class="table-view-cell">
               <a href="{{pathFor 'courses.show' _id=course._id}}" data-nav-direction="right" class="navigate-right">

@@ -1,0 +1,22 @@
+<template name="messagesIndex">
+  {{#momentum plugin="fade"}}
+    {{#if isInRole 'teacher'}}
+      <div class="card">
+        <ul class="table-view">
+          {{#each channel in ownedChannelsArray}}
+            <li class="table-view-cell media">
+              <a class="navigate-right">
+                <img class="media-object pull-left icon icon-person">
+                <div class="media-body">
+                  {{findUser channel.recipient_id}}
+                  <p>{{channel.subject}}</p>
+                </div>
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{else if isInRole 'student'}}
+    {{/if}}
+  {{/momentum}}
+</template>

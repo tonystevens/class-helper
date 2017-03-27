@@ -3,8 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { coursesRenderHold } from '../launch-screen.js';
 
-import { Courses } from '../../../lib/courses.js';
-import { findCourseByCourseCd, addStudentToCourse } from '../../../lib/methods.js';
+import { findOwnedCourses, findJoinedCourses, findCourseByCourseCd, addStudentToCourse } from '../../../lib/methods.js';
 
 import '../components/forms/new-course-modal.js';
 
@@ -24,10 +23,10 @@ Template.coursesIndex.onRendered(function coursesShowPageOnRendered() {
 
 Template.coursesIndex.helpers({
   ownedCoursesArray() {
-    return Courses.find({ userId: Meteor.userId() }, { sort: {createdAt: -1}});
+    return findOwnedCourses(Meteor.userId());
   },
   joinedCoursesArray() {
-    return Courses.find({ students: Meteor.userId() }, { sort: {createdAt: -1}});
+    return findJoinedCourses(Meteor.userId());
   },
   courseArgs(course) {
     const instance = Template.instance();

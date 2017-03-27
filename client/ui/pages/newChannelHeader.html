@@ -1,0 +1,12 @@
+<template name="newChannelHeader">
+  <header class="bar bar-nav">
+    <h1 class="title">
+      <span>New Message</span>
+    </h1>
+    {{#if currentUser}}
+      <a href="{{pathFor 'messages.index'}}" class="btn btn-link pull-right">Cancel</a>
+    {{else}}
+      <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
+    {{/if}}
+  </header>
+</template>
