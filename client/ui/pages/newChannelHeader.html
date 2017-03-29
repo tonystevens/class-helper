@@ -4,7 +4,7 @@
       <span>New Message</span>
     </h1>
     {{#if currentUser}}
-      <a href="{{pathFor 'messages.index'}}" class="btn btn-link pull-right">Cancel</a>
+      <a href="{{pathFor 'messages.index'}}" id="back-to-message" class="btn btn-link pull-left"><span class="icon icon-left"></span></a>
     {{else}}
       <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
     {{/if}}

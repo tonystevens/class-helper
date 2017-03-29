@@ -4,6 +4,11 @@
       <input type="text" id="channel-subject" placeholder="Subject:">
       {{> inputAutocomplete settings=settings id="autocomplete-input" class="recipient-text" placeholder="To: "}}
     </div>
+    <div>
+      {{#each message in getMessages}}
+
+      {{/each}}
+    </div>
     <div id="new-channel-message">
       <input type="text" id="new-channel-message-text"><i class="icon fa fa-paper-plane-o" id="new-channel-message-send"></i>
     </div>

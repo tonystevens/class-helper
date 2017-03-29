@@ -1,16 +1,16 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { findChannelsByReceipientAndSubject, insertChannel } from '../../../lib/methods.js';
+import { findChannelsByReceipientAndSubject, insertChannel, insertMessage, findMessagesByChannel } from '../../../lib/methods.js';
 
 import './newChannelPage.html';
 
 const recipients = new ReactiveVar(undefined);
-const channelCreated = new WeakMap();
+const channel = new ReactiveVar(undefined);
 
 Template.newChannelPage.onRendered(() => {
   // $('#new-channel-message').prop('disabled', true);
-  channelCreated.set(this, false);
+  channel.set(undefined);
 });
 
 Template.newChannelPage.helpers({
@@ -34,6 +34,12 @@ Template.newChannelPage.helpers({
       ]
     }
   },
+  getMessages: () => {
+    console.log('In getMessages');
+    if (channel.get()) {
+      console.log(findMessagesByChannel(channel.get()._id));
+    }
+  },
 });
 
 Template.newChannelPage.events({
@@ -45,19 +51,21 @@ Template.newChannelPage.events({
     const recipient = recipients.get();
 
     if (subject !== '' && recipient !== undefined) {
-      if (channelCreated.get(this)) {
+      if (channel.get()) {
         console.log('channel exist: cached');
+        addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
       } else if (isChannelExist(subject, recipient._id)){
         console.log('channel exist: looked up');
+        Meteor.subscribe('channel');
       } else {
         console.log('create new channel');
-        createNewChannel(subject, recipients.get());
-        channelCreated.set(this, true);
+        const newChannel = createNewChannel(subject, recipients.get());
+        channel.set(newChannel);
         disableSubjectAndRecipientFields();
-        emptyNewChannelMessageText();
+        addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
       }
     }
-  }
+  },
 });
 
 function isChannelExist(subject, recipientId) {
@@ -71,7 +79,7 @@ function createNewChannel(subject, recipient) {
     subject: subject,
     category: 'other',
   };
-  insertChannel(channelAttributes);
+  return insertChannel(channelAttributes);
 }
 
 function disableSubjectAndRecipientFields() {
@@ -79,6 +87,25 @@ function disableSubjectAndRecipientFields() {
   $('#autocomplete-input').prop('disabled', true);
 }
 
-function emptyNewChannelMessageText() {
-  $('#new-channel-message-text').val('');
+function grabNewChannelMessageText() {
+  const $newChannelMessageTextField = $('#new-channel-message-text');
+  const newMessage = $newChannelMessageTextField.val();
+  $newChannelMessageTextField.val('');
+  return newMessage;
+}
+
+function addMessageToChannel(channelId, senderId, recipientId) {
+  const newMessage = grabNewChannelMessageText().trim();
+  if (newMessage !== '') {
+    const messageAttributes = {
+      channel_id: channelId,
+      sender_id: senderId,
+      recipient_id: recipientId,
+      requireReply: false,
+      isReplied: false,
+      expireAt: new Date("2018-12-31T00:00:00Z"),
+      content: newMessage,
+    };
+    insertMessage(messageAttributes);
+  }
 }
