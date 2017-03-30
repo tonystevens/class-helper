@@ -7,6 +7,7 @@ import './newChannelPage.html';
 
 const recipients = new ReactiveVar(undefined);
 const channel = new ReactiveVar(undefined);
+const dep = new Deps.Dependency();
 
 Template.newChannelPage.onRendered(() => {
   // $('#new-channel-message').prop('disabled', true);
@@ -35,15 +36,18 @@ Template.newChannelPage.helpers({
     }
   },
   getMessages: () => {
+    dep.depend();
     console.log('In getMessages');
+    console.log(channel.get());
     if (channel.get()) {
-      console.log(findMessagesByChannel(channel.get()._id));
+      return findMessagesByChannel(channel.get()._id);
     }
   },
 });
 
 Template.newChannelPage.events({
   'autocompleteselect input': (event, template, rep) => {
+    event.target.value = `${rep.profile.firstName}, ${rep.profile.lastName}`;
     recipients.set(rep);
   },
   'click #new-channel-message-send': () => {
@@ -54,23 +58,27 @@ Template.newChannelPage.events({
       if (channel.get()) {
         console.log('channel exist: cached');
         addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
-      } else if (isChannelExist(subject, recipient._id)){
-        console.log('channel exist: looked up');
-        Meteor.subscribe('channel');
+        dep.changed();
       } else {
-        console.log('create new channel');
-        const newChannel = createNewChannel(subject, recipients.get());
-        channel.set(newChannel);
-        disableSubjectAndRecipientFields();
-        addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
+        const existChannel = findChannelsByReceipientAndSubject(recipient._id, subject);
+        if (existChannel !== undefined) {
+          console.log('channel exist: looked up');
+          channel.set({ _id: existChannel._id });
+          disableSubjectAndRecipientFields();
+          addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
+          dep.changed();
+        } else {
+          console.log('create new channel');
+          const newChannel = createNewChannel(subject, recipients.get());
+          channel.set(newChannel);
+          disableSubjectAndRecipientFields();
+          addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
+          dep.changed();
+        }
       }
     }
   },
 });
-
-function isChannelExist(subject, recipientId) {
-  return findChannelsByReceipientAndSubject(recipientId, subject) !== undefined;
-}
 
 function createNewChannel(subject, recipient) {
   const channelAttributes = {
