@@ -3,6 +3,8 @@
     <div class="input-group">
       <input type="text" id="channel-subject" placeholder="Subject:">
       {{> inputAutocomplete settings=settings id="autocomplete-input" class="recipient-text" placeholder="To: "}}
+      <input type="text" id="channel-expire-date" data-fx-mobile="true" data-lang="zh" data-large-mode="true" data-lock="from" data-min-year="2017" data-max-year="2018">
+      <input type="text" id="channel-expire-time">
     </div>
     <div>
       {{#each message in getMessages}}

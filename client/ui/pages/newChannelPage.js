@@ -6,12 +6,16 @@ import { findChannelsByReceipientAndSubject, insertChannel, insertMessage, findM
 import './newChannelPage.html';
 
 const recipients = new ReactiveVar(undefined);
+const subjects = new ReactiveVar(undefined);
 const channel = new ReactiveVar(undefined);
 const dep = new Deps.Dependency();
 
 Template.newChannelPage.onRendered(() => {
   // $('#new-channel-message').prop('disabled', true);
+  setSendNewChannelMessageEnable(false);
   channel.set(undefined);
+  $('#channel-expire-date').dateDropper();
+  $('#channel-expire-time').timeDropper();
 });
 
 Template.newChannelPage.helpers({
@@ -37,8 +41,6 @@ Template.newChannelPage.helpers({
   },
   getMessages: () => {
     dep.depend();
-    console.log('In getMessages');
-    console.log(channel.get());
     if (channel.get()) {
       return findMessagesByChannel(channel.get()._id);
     }
@@ -49,35 +51,41 @@ Template.newChannelPage.events({
   'autocompleteselect input': (event, template, rep) => {
     event.target.value = `${rep.profile.firstName}, ${rep.profile.lastName}`;
     recipients.set(rep);
-  },
-  'click #new-channel-message-send': () => {
-    const subject = $('#channel-subject').val().trim();
-    const recipient = recipients.get();
-
-    if (subject !== '' && recipient !== undefined) {
-      if (channel.get()) {
-        console.log('channel exist: cached');
-        addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
+    if (isReadyToSendMessage()) {
+      const existChannel = findChannelsByReceipientAndSubject(recipients.get()._id, subjects.get());
+      if (existChannel !== undefined) {
+        channel.set({ _id: existChannel._id });
         dep.changed();
       } else {
-        const existChannel = findChannelsByReceipientAndSubject(recipient._id, subject);
-        if (existChannel !== undefined) {
-          console.log('channel exist: looked up');
-          channel.set({ _id: existChannel._id });
-          disableSubjectAndRecipientFields();
-          addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
-          dep.changed();
-        } else {
-          console.log('create new channel');
-          const newChannel = createNewChannel(subject, recipients.get());
-          channel.set(newChannel);
-          disableSubjectAndRecipientFields();
-          addMessageToChannel(channel.get()._id, Meteor.userId(), recipient._id);
-          dep.changed();
-        }
+        channel.set(undefined);
+        dep.changed();
       }
+      setSendNewChannelMessageEnable(true);
     }
   },
+  'click #new-channel-message-send': () => {
+    if (isReadyToSendMessage()) {
+      if (channel.get()) {
+        console.log('channel exist: cached');
+        addMessageToChannel(channel.get()._id, Meteor.userId(), recipients.get()._id);
+        dep.changed();
+      } else {
+        console.log('create new channel');
+        const newChannel = createNewChannel(subjects.get(), recipients.get());
+        channel.set(newChannel);
+        addMessageToChannel(channel.get()._id, Meteor.userId(), recipients.get()._id);
+        dep.changed();
+      }
+      disableSubjectAndRecipientFields();
+    }
+  },
+  'input #channel-subject': (event) => {
+    const subject = event.target.value;
+    subjects.set(subject === '' ? undefined : subject);
+  },
+  'click #channel-expire-date': (event) => {
+    $('#channel-expire-date').trigger('focus');
+  }
 });
 
 function createNewChannel(subject, recipient) {
@@ -93,6 +101,10 @@ function createNewChannel(subject, recipient) {
 function disableSubjectAndRecipientFields() {
   $('#channel-subject').prop('disabled', true);
   $('#autocomplete-input').prop('disabled', true);
+}
+
+function setSendNewChannelMessageEnable(isEnable) {
+  $('#new-channel-message-send').prop('disabled', !isEnable);
 }
 
 function grabNewChannelMessageText() {
@@ -116,4 +128,8 @@ function addMessageToChannel(channelId, senderId, recipientId) {
     };
     insertMessage(messageAttributes);
   }
+}
+
+function isReadyToSendMessage() {
+  return recipients.get() && subjects.get() && $('#channel-subject').val().trim() !== '';
 }

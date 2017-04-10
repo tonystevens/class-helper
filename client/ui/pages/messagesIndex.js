@@ -1,6 +1,6 @@
 import 'meteor/templating';
 
-import { findChannelsByOwner, findUserById } from '../../../lib/methods.js';
+import { findChannelsByOwner, findChannelsByRecipient, findUserById } from '../../../lib/methods.js';
 
 import './messagesIndex.html';
 
@@ -8,8 +8,11 @@ Template.messagesIndex.helpers({
   ownedChannelsArray: () => {
     return findChannelsByOwner(Meteor.userId());
   },
-  findUser: (recipientId) => {
-    const recipient = findUserById(recipientId);
+  participatedChannelArray: () => {
+    return findChannelsByRecipient(Meteor.userId());
+  },
+  findRecipientUser: (channel) => {
+    const recipient = findUserById(Meteor.userId() === channel.recipient_id ? channel.owner_id : channel.recipient_id);
     return `${recipient.profile.firstName}, ${recipient.profile.lastName}`;
-  }
+  },
 });

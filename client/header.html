@@ -3,7 +3,7 @@
 		<h1 class="title"><span>Class Helper</span></h1>
       {{#if currentUser}}
         <span class="icon fa fa-sign-out account-logout pull-right"></span>
-        <a href="{{pathFor 'messages.index'}}" class="icon fa fa-stack fa-3x message-notifications pull-right"><i class="fa fa-comment-o fa-stack-2x"></i><strong class="fa-stack-1x">3</strong></a>
+        <a href="{{pathFor 'messages.index'}}" class="icon fa fa-stack fa-3x message-notifications pull-right"><i class="fa fa-comment-o fa-stack-2x"></i><strong class="fa-stack-1x">{{channelCount}}</strong></a>
       {{else}}
         <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
       {{/if}}

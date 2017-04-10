@@ -16,18 +16,18 @@
       </div>
     {{else if isInRole 'student'}}
       <div class="card">
-        <ul class="table-view">
-          <li class="table-view-cell table-view-divider">Joined
-            <button class="btn pull-right add-joined-course" data-toggle-modal="join-course-modal"><span class="icon icon-plus"></span></button></li>
-          {{#each course in joinedCoursesArray}}
-            <li class="table-view-cell">
-              <a class="navigate-right">
-                {{course.name}}
-              </a>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
+      <ul class="table-view">
+        <li class="table-view-cell table-view-divider">Joined
+          <button class="btn pull-right add-joined-course" data-toggle-modal="join-course-modal"><span class="icon icon-plus"></span></button></li>
+        {{#each course in joinedCoursesArray}}
+          <li class="table-view-cell">
+            <a class="navigate-right">
+              {{course.name}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
     {{/if}}
   {{/momentum}}
 
