@@ -45,6 +45,13 @@ FlowRouter.route('/messages', {
   }
 });
 
+FlowRouter.route('/messages/:_id', {
+  name: 'messages.show',
+  action() {
+    BlazeLayout.render('appLayout', { main: 'messageShow' });
+  },
+});
+
 FlowRouter.route('/new-channel', {
   name: 'newChannel',
   action() {

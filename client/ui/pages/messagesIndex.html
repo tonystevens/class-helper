@@ -3,12 +3,13 @@
     {{#if isInRole 'teacher'}}
       <div class="card">
         <ul class="table-view">
+          <li class="table-view-cell table-view-divider">Owned</li>
           {{#each channel in ownedChannelsArray}}
             <li class="table-view-cell media">
-              <a class="navigate-right">
+              <a href="{{pathFor 'messages.show' _id=channel._id}}"  data-nav-direction="right" class="navigate-right">
                 <img class="media-object pull-left icon icon-person">
                 <div class="media-body">
-                  {{findUser channel.recipient_id}}
+                  {{findRecipientUser channel}}
                   <p>{{channel.subject}}</p>
                 </div>
               </a>
@@ -16,7 +17,22 @@
           {{/each}}
         </ul>
       </div>
-    {{else if isInRole 'student'}}
     {{/if}}
+    <div class="card">
+      <ul class="table-view">
+        <li class="table-view-cell table-view-divider">Participated</li>
+        {{#each channel in participatedChannelArray}}
+          <li class="table-view-cell media">
+            <a href="{{pathFor 'messages.show' _id=channel._id}}"  data-nav-direction="right" class="navigate-right">
+              <img class="media-object pull-left icon icon-person">
+              <div class="media-body">
+                {{findRecipientUser channel}}
+                <p>{{channel.subject}}</p>
+              </div>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
   {{/momentum}}
 </template>

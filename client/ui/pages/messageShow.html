@@ -1,0 +1,32 @@
+<template name="messageShow">
+  <header class="bar bar-nav">
+    <h1 class="title">
+      <span>{{recipient.profile.firstName}}, {{recipient.profile.lastName}}</span>
+    </h1>
+    {{#if currentUser}}
+      <a href="{{pathFor 'messages.index'}}" id="back-to-message" class="btn btn-link pull-left"><span class="icon icon-left"></span></a>
+    {{else}}
+      <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
+    {{/if}}
+  </header>
+
+  <div class="content">
+    {{#if isInRole 'teacher,student'}}
+      <div class="card">
+        <ul class="table-view">
+          <li class="table-view-cell">
+            <span>{{channel.subject}}</span>
+          </li>
+        </ul>
+      </div>
+      {{#each message in messages}}
+        <p>From {{findUserById message.sender_id}} To {{findUserById message.recipient_id}}: </p>
+        <p>{{message.content}}</p>
+      {{/each}}
+
+      <div id="channel-message">
+        <input type="text" id="channel-message-text"><i class="icon fa fa-paper-plane-o" id="channel-message-send"></i>
+      </div>
+    {{/if}}
+  </div>
+</template>
