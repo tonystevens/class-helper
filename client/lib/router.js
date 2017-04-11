@@ -58,3 +58,10 @@ FlowRouter.route('/new-channel', {
     BlazeLayout.render('appLayout', { top: 'newChannelHeader', main: 'newChannelPage' });
   }
 });
+
+FlowRouter.route('/test', {
+  name: 'test',
+  action() {
+    BlazeLayout.render('appLayout', { main: 'test' });
+  }
+});
