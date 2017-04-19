@@ -1,16 +1,26 @@
 <template name="coursesIndex">
   {{#momentum plugin="fade"}}
     {{#if isInRole 'teacher'}}
-        <div class="card">
-        <ul class="table-view">
-          <li class="table-view-cell table-view-divider">Owned
-            <a class="icon btn fa fa-plus-circle pull-right add-owned-course" data-toggle-modal="new-course-modal"></a></li>
+      <div class="content-block-title">
+        Owned Courses
+        <a href="#newCourseModal" data-popup=".new-course-modal" class="icon btn fa fa-plus-circle add-owned-course open-popup"></a>
+      </div>
+      <div class="list-block sortable">
+        <ul>
           {{#each course in ownedCoursesArray}}
-            <li class="table-view-cell">
-              <a href="{{pathFor 'courses.show' _id=course._id}}" data-nav-direction="right" class="navigate-right">
-              {{course.name}}
-              </a>
-            </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-title">
+                  <a href="{{pathFor 'courses.show' _id=course._id}}">
+                  {{course.name}}
+                  </a>
+                </div>
+                <div class="item-after"><i class="fa fa-angle-right"></i></div>
+              </div>
+            </div>
+            <div class="sortable-handler"></div>
+          </li>
           {{/each}}
         </ul>
       </div>
@@ -31,7 +41,7 @@
     {{/if}}
   {{/momentum}}
 
-  <div id="new-course-modal" class="modal">
+  <div class="popup new-course-modal">
     {{> newCourseModal }}
   </div>
 

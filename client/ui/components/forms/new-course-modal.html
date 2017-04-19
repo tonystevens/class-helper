@@ -1,14 +1,60 @@
 <template name="newCourseModal">
-  <header class="bar bar-nav">
-    <a class="icon icon-close pull-right" data-toggle-modal="new-course-modal"></a>
-    <h1 class="title">Add New Course</h1>
-  </header>
-  <div class="content new_course_content">
-    <form>
-      <input type="text" name="new_course_name" placeholder="Enter Course Name">
-      <textarea name="new_course_description" placeholder="Enter Course Description" rows="5"></textarea>
-      <button type="submit" class="btn btn-positive btn-block" data-toggle-modal="new-course-modal">Save</button>
-      <button type="reset" class="btn btn-block btn-outlined" data-toggle-modal="new-course-modal">Cancel</button>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left"><a class="close-popup"><i class="icon fa fa-angle-left fa-2x"></i></a></div>
+      <div class="center">Add New Course</div>
+      <div class="right"><a class="close-popup save-course">Save</a></div>
+    </div>
+  </div>
+  <div class="page-content" style="background-color: #d3dbe8;">
+    <div class="content-block-title">Course Info</div>
+    <form id="new_course_form" class="list-block new_course_content inset">
+        <ul>
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon fa fa-book"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Name</div>
+                <div class="item-input">
+                  <input type="text" name="name" placeholder="Course Name">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Start Date</div>
+                <div class="item-input">
+                  <input type="text" name="startAt" placeholder="Course Start Date" readonly id="course-start-date">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">End Date</div>
+                <div class="item-input">
+                  <input type="text" name="endAt" placeholder="Course End Date" readonly id="course-end-date">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="align-top">
+            <div class="item-content">
+              <div class="item-media"><i class="icon fa fa-file-text-o"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Description</div>
+                <div class="item-input">
+                  <textarea name="description"></textarea>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
     </form>
   </div>
 </template>

@@ -9,7 +9,7 @@ import '../accounts/accounts-template.js';
 FlowRouter.route('/', {
   name: 'App.home',
   action() {
-    BlazeLayout.render('appLayout', { top: 'header', main: 'Auth_page' });
+    BlazeLayout.render('appLayout', { main: 'Auth_page' });
   }
 });
 
@@ -59,9 +59,9 @@ FlowRouter.route('/new-channel', {
   }
 });
 
-FlowRouter.route('/test', {
-  name: 'test',
-  action() {
-    BlazeLayout.render('appLayout', { main: 'test' });
-  }
-});
+// FlowRouter.route('/', {
+//   name: 'test',
+//   action() {
+//     BlazeLayout.render('appLayout', { main: 'test' });
+//   }
+// });

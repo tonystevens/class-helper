@@ -1,23 +1,36 @@
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { insertCourse } from '../../../../lib/methods';
 
 import './new-course-modal.html';
 
-Template.newCourseModal.events({
-  'submit form': function(e) {
-    e.preventDefault();
+const f7App = new ReactiveVar(undefined);
 
-    const course = createCourse.call(e.target);
-
-    insertCourse(course);
-
-    swal("Good job!", "You added a new course!", "success");
+Template.newCourseModal.onRendered(() => {
+  if(Meteor.isClient){
+    const app = new Framework7();
+    f7App.set(app);
+    f7App.get().calendar({
+      input: '#course-start-date',
+      dateFormat: 'M dd yyyy',
+      minDate: new Date(),
+    });
+    f7App.get().calendar({
+      input: '#course-end-date',
+      dateFormat: 'M dd yyyy',
+      minDate: new Date(),
+    });
   }
 });
 
-function createCourse() {
-  const courseName = $(this).find('[name=new_course_name]').val();
-  const courseDescription = $(this).find('[name=new_course_description]').val();
-  return { courseName, courseDescription };
-}
+Template.newCourseModal.events({
+  'click .add-students': () => {
+    f7App.get().smartSelectOpen(".add-students select");
+  },
+  'click .save-course': () => {
+    const formData = f7App.get().formToData($('#new_course_form'));
+    insertCourse(formData);
+    swal("Good job!", "You added a new course!", "success");
+  }
+});
