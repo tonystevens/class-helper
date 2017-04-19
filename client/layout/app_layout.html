@@ -1,10 +1,8 @@
 <template name="appLayout">
   {{> Template.dynamic template=top}}
-  <!--<div id="app-content-container" class="content">-->
-    {{#if Template.subscriptionsReady}}
-      {{> Template.dynamic template=main}}
-    {{else}}
-      {{> App_loading}}
-    {{/if}}
-  <!--</div>-->
+  {{#if Template.subscriptionsReady}}
+    {{> Template.dynamic template=main}}
+  {{else}}
+    {{> App_loading}}
+  {{/if}}
 </template>

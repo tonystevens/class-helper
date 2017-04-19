@@ -4,14 +4,14 @@
       <div class="left">
         {{#if currentUser}}
           <a href="{{pathFor 'messages.index'}}">
-            <i class="icon fa fa-comments-o fa-2x"><span class="badge bg-green">{{channelCount}}</span></i>
+            <i class="icon fa fa-comments-o fa-lg"><span class="badge bg-green">{{channelCount}}</span></i>
           </a>
         {{/if}}
       </div>
       <div class="center">Class Helper</div>
       <div class="right">
         {{#if currentUser}}
-          <span class="icon fa fa-sign-out fa-2x account-logout"></span>
+          <span class="icon fa fa-sign-out fa-lg account-logout"></span>
         {{else}}
           <a href="{{pathFor 'signin'}}" class="icon icon-person"></a>
         {{/if}}

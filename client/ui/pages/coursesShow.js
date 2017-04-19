@@ -6,11 +6,13 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 
-import { updateCourse, deleteCourse } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
 const singleCourse = new ReactiveVar(undefined);
+const f7App = new ReactiveVar(undefined);
+const studentMap = new Map();
 
 Template.coursesShow.onRendered(function coursesShowPageOnRendered() {
   this.autorun(() => {
@@ -19,6 +21,14 @@ Template.coursesShow.onRendered(function coursesShowPageOnRendered() {
     }
     singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id'), userId: Meteor.userId()}));
   });
+  if(Meteor.isClient){
+    const app = new Framework7();
+    f7App.set(app);
+    f7App.get().swiper('.swiper-container', {
+      speed: 400,
+      pagination:'.swiper-pagination'
+    });
+  }
 });
 
 Template.coursesShow.helpers({
@@ -33,7 +43,8 @@ Template.coursesShow.helpers({
     if (student === undefined) {
       return '';
     } else {
-      return student.profile.firstName + ', ' + student.profile.lastName;
+      studentMap.set(studentId, student.profile.firstName + ', ' + student.profile.lastName);
+      return studentMap.get(studentId);
     }
   }
 });
@@ -62,6 +73,21 @@ Template.coursesShow.events({
       FlowRouter.go('courses.index');
     });
   },
+  'click .remove-student': (e) => {
+    const studentId = e.target.id;
+    console.log(studentId);
+    // swal({
+    //   title: `Remove ${studentMap.get(studentId)} from course?`,
+    //   type: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#DD6B55",
+    //   confirmButtonText: "Yes, remove!",
+    //   closeOnConfirm: false
+    // }, () => {
+    //   swal("Removed!", `${studentMap.get(studentId)} has been removed from this course.`, "success");
+    //   removeStudentFromCourse(singleCourse.get()._id, studentId);
+    // });
+  }
 });
 
 function getUpdateCourseAttributes() {
