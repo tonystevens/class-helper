@@ -1,0 +1,29 @@
+<template name="addCourseStudent">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left"><i class="icon icon-back close-popup"></i></div>
+      <div class="center">Add Students</div>
+      <div class="right"><a class="close-popup">Done</a></div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="content-block-title">Select Students ( Can select {{numberOfStudents course}} more )</div>
+    <div class="list-block">
+      <ul>
+        {{#each student in availableStudents course}}
+        <li>
+          <label class="label-checkbox item-content">
+            <input type="checkbox" name="student" value="{{student._id}}">
+            <div class="item-media">
+              <i class="icon icon-form-checkbox"></i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title">{{student.profile.firstName}}, {{student.profile.lastName}}</div>
+            </div>
+          </label>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>

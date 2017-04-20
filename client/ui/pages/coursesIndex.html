@@ -1,5 +1,6 @@
 <template name="coursesIndex">
   <!--{{#momentum plugin="fade"}}-->
+  <div class="page-content">
     {{#if isInRole 'teacher'}}
       <div class="content-block-title">
         Owned Courses
@@ -39,6 +40,7 @@
       </ul>
     </div>
     {{/if}}
+  </div>
   <!--{{/momentum}}-->
 
   <div class="popup new-course-modal">

@@ -14,7 +14,7 @@ const singleCourse = new ReactiveVar(undefined);
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 
-Template.coursesShow.onRendered(function coursesShowPageOnRendered() {
+Template.coursesShow.onRendered(function onPageOnRendered() {
   this.autorun(() => {
     if (this.subscriptionsReady()) {
       coursesRenderHold.release();
@@ -75,18 +75,16 @@ Template.coursesShow.events({
   },
   'click .remove-student': (e) => {
     const studentId = e.target.id;
-    console.log(studentId);
-    // swal({
-    //   title: `Remove ${studentMap.get(studentId)} from course?`,
-    //   type: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#DD6B55",
-    //   confirmButtonText: "Yes, remove!",
-    //   closeOnConfirm: false
-    // }, () => {
-    //   swal("Removed!", `${studentMap.get(studentId)} has been removed from this course.`, "success");
-    //   removeStudentFromCourse(singleCourse.get()._id, studentId);
-    // });
+    swal({
+      title: `Remove ${studentMap.get(studentId)}?`,
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, remove!",
+      closeOnConfirm: false
+    }, () => {
+      swal("Removed!", `${studentMap.get(studentId)} has been removed.`, "success");
+      removeStudentFromCourse(singleCourse.get()._id, studentId);
+    });
   }
 });
 

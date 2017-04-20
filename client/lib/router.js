@@ -6,21 +6,19 @@ import '../ui/pages/root_redirector.js';
 
 import '../accounts/accounts-template.js';
 
-FlowRouter.route('/', {
+FlowRouter.route('/home', {
   name: 'App.home',
   action() {
+    Meteor.logout();
+    console.log(Meteor.user());
     BlazeLayout.render('appLayout', { main: 'Auth_page' });
   }
 });
 
-FlowRouter.route('/root', {
+FlowRouter.route('/', {
   name: 'App.root',
   action() {
-    if (Meteor.user()) {
-      BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
-    } else {
-      FlowRouter.go('App.home');
-    }
+    BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
   }
 });
 

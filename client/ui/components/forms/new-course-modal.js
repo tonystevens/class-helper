@@ -32,5 +32,6 @@ Template.newCourseModal.events({
     const formData = f7App.get().formToData($('#new_course_form'));
     insertCourse(formData);
     swal("Good job!", "You added a new course!", "success");
+    $('#new_course_form')[0].reset();
   }
 });

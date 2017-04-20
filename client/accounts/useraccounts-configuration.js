@@ -8,7 +8,7 @@ AccountsTemplates.configure({
   defaultLayoutRegions: {
     top: 'header',
   },
-  homeRoutePath: '/root',
+  homeRoutePath: '/',
   redirectTimeout: 4000,
 });
 
