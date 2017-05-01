@@ -10,7 +10,6 @@ FlowRouter.route('/home', {
   name: 'App.home',
   action() {
     Meteor.logout();
-    console.log(Meteor.user());
     BlazeLayout.render('appLayout', { main: 'Auth_page' });
   }
 });
@@ -18,7 +17,11 @@ FlowRouter.route('/home', {
 FlowRouter.route('/', {
   name: 'App.root',
   action() {
-    BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
+    if (Meteor.user()) {
+      BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
+    } else {
+      FlowRouter.go('App.home');
+    }
   }
 });
 
@@ -53,7 +56,7 @@ FlowRouter.route('/messages/:_id', {
 FlowRouter.route('/new-channel', {
   name: 'newChannel',
   action() {
-    BlazeLayout.render('appLayout', { top: 'newChannelHeader', main: 'newChannelPage' });
+    BlazeLayout.render('appLayout', { main: 'newChannelPage' });
   }
 });
 

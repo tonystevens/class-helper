@@ -40,8 +40,9 @@ aldeed:collection2
 kevohagan:sweetalert
 
 mrt:underscore-string-latest
-mizzao:autocomplete
 tonystevens:timedropper@1.0.0
 tonystevens:meteor-framework7@1.2.0
 
 fortawesome:fontawesome
+momentjs:moment
+ostrio:files

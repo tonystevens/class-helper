@@ -1,121 +1,171 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { findChannelsByReceipientAndSubject, insertChannel, insertMessage, findMessagesByChannel } from '../../../lib/methods.js';
+import {
+  findChannelsByRecipientAndSubject,
+  findChannelsByOwneAndSubject,
+  insertChannel,
+  insertMessage,
+  findMessagesByChannel,
+  findOtherUsers,
+  findUserById
+} from '../../../lib/methods.js';
 
 import './newChannelPage.html';
 
-const recipients = new ReactiveVar(undefined);
-const subjects = new ReactiveVar(undefined);
 const channel = new ReactiveVar(undefined);
 const dep = new Deps.Dependency();
 
+const f7App = new ReactiveVar(undefined);
+const otherUsers = new ReactiveVar([]);
+const myMessageBar = new ReactiveVar(undefined);
+const recipient = new ReactiveVar(undefined);
+const latestMessageDtTmStr = new WeakMap();
+
+Template.newChannelPage.onCreated(() => {
+  if(Meteor.isClient){
+    const myApp = new Framework7();
+    f7App.set(myApp);
+    otherUsers.set(findOtherUsers().fetch());
+  }
+});
+
 Template.newChannelPage.onRendered(() => {
-  // $('#new-channel-message').prop('disabled', true);
-  setSendNewChannelMessageEnable(false);
-  channel.set(undefined);
-  $('#channel-expire-date').dateDropper();
-  $('#channel-expire-time').timeDropper();
+  const myAutoCompleteRecipient = f7App.get().autocomplete({
+    input: '#recipient',
+    openIn: 'dropdown',
+    limit: 8,
+    dropdownPlaceholderText:'type a recipient name to search',
+    source: function(autocomplete, query, render) {
+      const results = [];
+      if (query.length === 0) {
+        render(results);
+        return;
+      }
+      otherUsers.get().forEach((el) => {
+        if (el._id !== Meteor.userId()
+          && `${el.profile.firstName}, ${el.profile.lastName}`.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          autocomplete.valueProperty = el._id;
+          results.push(`${el.profile.firstName}, ${el.profile.lastName}`);
+        }
+      });
+      render(results);
+    },
+    onChange: function(autocomplete, value) {
+      recipient.set(autocomplete.valueProperty);
+      if (isFormValid()) updateChannel();
+    }
+  });
+  f7App.get().onPageInit('newChannelPage', (page) => {
+    f7App.get().messages('.messages', {
+      autoLayout:true
+    });
+    const messageBar = f7App.get().messagebar('.messagebar');
+    myMessageBar.set(messageBar);
+  }).trigger();
+
+  // $('#channel-expire-date').dateDropper();
+  // $('#channel-expire-time').timeDropper();
 });
 
 Template.newChannelPage.helpers({
-  settings: () => {
-    return {
-      position: "bottom",
-      limit: 5,
-      rules: [
-        {
-          collection: Meteor.users,
-          field: 'profile.firstName',
-          template: Template.messageRecipientPill,
-          noMatchTemplate: Template.serverNoMatch,
-          filter: { _id: { $ne: Meteor.userId()} },
-          matchAll: true,
-          selector: (match) =>{
-            regex = new RegExp(match, 'i');
-            return {$or: [{'profile.firstName': regex}, {'profile.lastName': regex}]}
-          }
-        },
-      ]
-    }
-  },
-  getMessages: () => {
+  getExistingChannelMessages: () => {
     dep.depend();
     if (channel.get()) {
       return findMessagesByChannel(channel.get()._id);
     }
   },
+  isCurrentUserMessage: (userId) => {
+    return userId === Meteor.userId();
+  },
+  findUserById: (userId) => {
+    const user = findUserById(userId);
+    return `${user.profile.firstName}, ${user.profile.lastName}`;
+  },
+  isReadyToDisplayDateTime: (date) => {
+    const dtTmStr = moment(date).format('MMMM Do, h:mm a');
+    const isReady = dtTmStr !== latestMessageDtTmStr.get(this);
+    if (isReady) {
+      latestMessageDtTmStr.set(this, dtTmStr);
+    }
+    return isReady;
+  },
+  getDateTimeStr: () => {
+    return latestMessageDtTmStr.get(this);
+  },
 });
 
 Template.newChannelPage.events({
-  'autocompleteselect input': (event, template, rep) => {
-    event.target.value = `${rep.profile.firstName}, ${rep.profile.lastName}`;
-    recipients.set(rep);
-    if (isReadyToSendMessage()) {
-      const existChannel = findChannelsByReceipientAndSubject(recipients.get()._id, subjects.get());
-      if (existChannel !== undefined) {
-        channel.set({ _id: existChannel._id });
-        dep.changed();
-      } else {
-        channel.set(undefined);
-        dep.changed();
+  'click .messagebar .link': () => {
+    const messageText = myMessageBar.get().value().trim();
+    if (messageText.length === 0 || !isFormValid) return;
+
+    let recipientId;
+    if (channel.get()) { // previous channel
+      recipientId = channel.get().recipient_id;
+      if (recipientId === Meteor.userId()) {
+        recipientId = channel.get().owner_id;
       }
-      setSendNewChannelMessageEnable(true);
+    } else { // new channel
+      const newChannel = createNewChannel();
+      channel.set(newChannel);
+      recipientId = recipient.get();
     }
+    addMessageToChannel(channel.get()._id, Meteor.userId(), recipientId, messageText);
+    myMessageBar.get().clear();
+    disableFormCriteria();
   },
-  'click #new-channel-message-send': () => {
-    if (isReadyToSendMessage()) {
-      if (channel.get()) {
-        console.log('channel exist: cached');
-        addMessageToChannel(channel.get()._id, Meteor.userId(), recipients.get()._id);
-        dep.changed();
-      } else {
-        console.log('create new channel');
-        const newChannel = createNewChannel(subjects.get(), recipients.get());
-        channel.set(newChannel);
-        addMessageToChannel(channel.get()._id, Meteor.userId(), recipients.get()._id);
-        dep.changed();
-      }
-      disableSubjectAndRecipientFields();
-    }
+  'change #subject': () => {
+    if (isFormValid()) updateChannel();
   },
-  'input #channel-subject': (event) => {
-    const subject = event.target.value;
-    subjects.set(subject === '' ? undefined : subject);
-  },
-  'click #channel-expire-date': (event) => {
-    $('#channel-expire-date').trigger('focus');
-  }
 });
 
-function createNewChannel(subject, recipient) {
+function isFormValid() {
+  return isRecipientValid() && isSubjectValid();
+}
+
+function isRecipientValid() {
+  return $('#recipient').val().trim() !== '' && recipient.get();
+}
+
+function isSubjectValid() {
+  return $('#subject').val().trim() !== '';
+}
+
+function findExistChannel(userId, subject) {
+  //channel exists. current user is owner
+  const channelAsOwner = findChannelsByRecipientAndSubject(userId, subject);
+  if (channelAsOwner) return channelAsOwner;
+  //channel exists. current user is recipient
+  const channelAsRecipient = findChannelsByOwneAndSubject(userId, subject);
+  if (channelAsRecipient) return channelAsRecipient;
+  return undefined;
+}
+
+function updateChannel() {
+  const subject = $('#subject').val().trim();
+  const existChannel = findExistChannel(recipient.get(), subject);
+  channel.set(existChannel);
+  dep.changed();
+}
+
+function createNewChannel() {
+  const subject = $('#subject').val().trim();
   const channelAttributes = {
-    name: `${Meteor.userId()}_${recipient._id}_${subject}`,
-    recipient_id: recipient._id,
+    name: `${Meteor.userId()}_${recipient.get()}_${subject}`,
+    recipient_id: recipient.get(),
     subject: subject,
     category: 'other',
   };
   return insertChannel(channelAttributes);
 }
 
-function disableSubjectAndRecipientFields() {
-  $('#channel-subject').prop('disabled', true);
-  $('#autocomplete-input').prop('disabled', true);
+function disableFormCriteria() {
+  $('#subject').prop('disabled', true);
+  $('#recipient').prop('disabled', true);
 }
 
-function setSendNewChannelMessageEnable(isEnable) {
-  $('#new-channel-message-send').prop('disabled', !isEnable);
-}
-
-function grabNewChannelMessageText() {
-  const $newChannelMessageTextField = $('#new-channel-message-text');
-  const newMessage = $newChannelMessageTextField.val();
-  $newChannelMessageTextField.val('');
-  return newMessage;
-}
-
-function addMessageToChannel(channelId, senderId, recipientId) {
-  const newMessage = grabNewChannelMessageText().trim();
+function addMessageToChannel(channelId, senderId, recipientId, newMessage) {
   if (newMessage !== '') {
     const messageAttributes = {
       channel_id: channelId,
@@ -128,8 +178,4 @@ function addMessageToChannel(channelId, senderId, recipientId) {
     };
     insertMessage(messageAttributes);
   }
-}
-
-function isReadyToSendMessage() {
-  return recipients.get() && subjects.get() && $('#channel-subject').val().trim() !== '';
 }

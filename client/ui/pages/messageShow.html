@@ -1,32 +1,49 @@
 <template name="messageShow">
-  <header class="bar bar-nav">
-    <h1 class="title">
-      <span>{{recipient.profile.firstName}}, {{recipient.profile.lastName}}</span>
-    </h1>
-    {{#if currentUser}}
-      <a href="{{pathFor 'messages.index'}}" id="back-to-message" class="btn btn-link pull-left"><span class="icon icon-left"></span></a>
-    {{else}}
-      <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
-    {{/if}}
-  </header>
-
-  <div class="content">
-    {{#if isInRole 'teacher,student'}}
-      <div class="card">
-        <ul class="table-view">
-          <li class="table-view-cell">
-            <span>{{channel.subject}}</span>
-          </li>
-        </ul>
+  <div data-page="messageShowPage" class="page navbar-fixed toolbar-fixed">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="left">
+          {{#if currentUser}}
+            <a href="{{pathFor 'messages.index'}}"><i class="icon icon-back"></i></a>
+          {{/if}}
+        </div>
+        <div class="center">
+          {{#if currentUser}}
+            {{#if isInRole 'teacher,student'}}
+              {{channel.subject}}
+            {{/if}}
+          {{/if}}
+        </div>
+        <div class="right">
+          {{#unless currentUser}}
+            <a href="{{pathFor 'signin'}}" class="icon fa fa-user-circle-o fa-lg"></a>
+          {{/unless}}
+        </div>
       </div>
-      {{#each message in messages}}
-        <p>From {{findUserById message.sender_id}} To {{findUserById message.recipient_id}}: </p>
-        <p>{{message.content}}</p>
-      {{/each}}
-
-      <div id="channel-message">
-        <input type="text" id="channel-message-text"><i class="icon fa fa-paper-plane-o" id="channel-message-send"></i>
+    </div>
+    <div class="toolbar messagebar messagebar-init" data-max-height="200">
+      <div class="toolbar-inner">
+        <textarea placeholder="Message"></textarea><a href="#" class="link">Send</a>
       </div>
-    {{/if}}
+    </div>
+    <div class="page-content messages-content">
+      <div class="messages messages-auto-layout">
+        {{#each message in messages}}
+          {{#if isReadyToDisplayDateTime message.createdAt}}
+            <div class="messages-date">{{getDateTimeStr}}</div>
+          {{/if}}
+          {{#if isCurrentUserMessage message.sender_id}}
+            <div class="message message-sent message-first">
+              <div class="message-text">{{message.content}}</div>
+            </div>
+          {{else}}
+            <div class="message message-received message-with-avatar message-last message-with-tail message-first">
+              <div class="message-name">{{findUserById message.sender_id}}</div>
+              <div class="message-text">{{message.content}}</div>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
   </div>
 </template>

@@ -1,26 +1,75 @@
 <template name="newChannelPage">
-  {{#if isInRole 'teacher'}}
-    <div class="input-group">
-      <input type="text" id="channel-subject" placeholder="Subject:">
-      {{> inputAutocomplete settings=settings id="autocomplete-input" class="recipient-text" placeholder="To: "}}
-      <input type="text" id="channel-expire-date" data-fx-mobile="true" data-lang="zh" data-large-mode="true" data-lock="from" data-min-year="2017" data-max-year="2018">
-      <input type="text" id="channel-expire-time">
+  <div data-page="newChannelPage" class="page navbar-fixed toolbar-fixed">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="left">
+          {{#if currentUser}}
+            <a href="{{pathFor 'messages.index'}}"><i class="icon icon-back"></i></a>
+          {{/if}}
+        </div>
+        <div class="center">
+          {{#if currentUser}}
+            New Message
+          {{/if}}
+        </div>
+        <div class="right">
+          {{#unless currentUser}}
+            <a href="{{pathFor 'signin'}}" class="icon fa fa-user-circle-o fa-lg"></a>
+          {{/unless}}
+        </div>
+      </div>
     </div>
-    <div>
-      {{#each message in getMessages}}
-        <p>{{message.content}}</p>
-      {{/each}}
+    <div class="toolbar messagebar messagebar-init" data-max-height="200">
+      <div class="toolbar-inner">
+        <textarea placeholder="Message"></textarea><a href="#" class="link">Send</a>
+      </div>
     </div>
-    <div id="new-channel-message">
-      <input type="text" id="new-channel-message-text"><i class="icon fa fa-paper-plane-o" id="new-channel-message-send"></i>
+    <div class="page-content messages-content">
+      {{#if isInRole 'teacher'}}
+        <div class="list-block contacts-block">
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon fa fa-user-circle-o fa-lg"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">Name</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="Recipient" id="recipient">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon fa fa-envelope-o fa-lg"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">Subject</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="Subject" id="subject">
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      {{/if}}
+      <div class="messages messages-auto-layout">
+        {{#each message in getExistingChannelMessages}}
+          {{#if isReadyToDisplayDateTime message.createdAt}}
+            <div class="messages-date">{{getDateTimeStr}}</div>
+          {{/if}}
+          {{#if isCurrentUserMessage message.sender_id}}
+            <div class="message message-sent message-first">
+              <div class="message-text">{{message.content}}</div>
+            </div>
+          {{else}}
+            <div class="message message-received message-with-avatar message-last message-with-tail message-first">
+              <div class="message-name">{{findUserById message.sender_id}}</div>
+              <div class="message-text">{{message.content}}</div>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
     </div>
-  {{/if}}
-</template>
-
-<template name="messageRecipientPill">
-  <span class="label">{{profile.firstName}}, {{profile.lastName}}</span>
-</template>
-
-<template name="serverNoMatch">
-  <span class="icon icon-info" style="color: red;"></span>No such user: <span style="color: blue;"><b>{{getFilter}}</b>!</span>
+  </div>
 </template>

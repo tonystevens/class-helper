@@ -3,7 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { coursesRenderHold } from '../launch-screen.js';
 
-import { findOwnedCourses, findJoinedCourses, findCourseByCourseCd, addStudentToCourse } from '../../../lib/methods.js';
+import { findOwnedCourses, findJoinedCourses, findCourseByCourseCd, addSingleStudentToCourse } from '../../../lib/methods.js';
 
 import '../components/forms/new-course-modal.js';
 
@@ -50,7 +50,7 @@ Template.coursesIndex.events({
         type: "error",
       });
     } else if (!course.students.includes(userId)) {
-      addStudentToCourse(course._id, userId);
+      addSingleStudentToCourse(course._id, userId);
       swal({
         title: 'Course Join Succeed',
         type: "success",

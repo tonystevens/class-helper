@@ -1,13 +1,23 @@
 <template name="messageIndexHeader">
-  <header class="bar bar-nav">
-    <h1 class="title"><span>Messages</span></h1>
-    <a href="{{pathFor 'courses.index'}}" class="btn btn-link pull-left"><span class="icon icon-left"></span></a>
-    {{#if currentUser}}
-      {{#if isInRole 'teacher'}}
-        <a href="{{pathFor 'newChannel'}}" class="btn btn-link pull-right"><span class="icon icon-compose new-channel"></span></a>
-      {{/if}}
-    {{else}}
-      <a href="{{pathFor 'signin'}}" class="icon icon-person pull-right"></a>
-    {{/if}}
-  </header>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        {{#if currentUser}}
+          <a href="{{pathFor 'courses.index'}}">
+            <i class="icon icon-back"></i>
+          </a>
+        {{/if}}
+      </div>
+      <div class="center">Messages</div>
+      <div class="right">
+        {{#if currentUser}}
+          {{#if isInRole 'teacher'}}
+            <a href="{{pathFor 'newChannel'}}" class="icon fa fa-edit fa-lg new-channel"></a>
+          {{/if}}
+        {{else}}
+          <a href="{{pathFor 'signin'}}" class="icon icon-person"></a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
 </template>

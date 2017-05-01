@@ -1,10 +1,11 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { findStudentsNotInCourse } from '../../../../lib/methods';
+import { findStudentsNotInCourse, addMultipleStudentsToCourse } from '../../../../lib/methods';
 
 import './add-course-student-modal.html';
 
+const singleCourse = new ReactiveVar(undefined);
 const selectedStudents = new ReactiveVar([]);
 
 Template.addCourseStudent.onRendered(function onPageOnRendered() {
@@ -15,14 +16,27 @@ Template.addCourseStudent.onRendered(function onPageOnRendered() {
 });
 
 Template.addCourseStudent.helpers({
-  numberOfStudents: function(course) {
-    if (course) {
-      return 50 - selectedStudents.get().length - course.students.length;
+  setCourse: function(course) {
+    singleCourse.set(course);
+  },
+  numberOfStudents: function() {
+    if (singleCourse.get()) {
+      return 50 - selectedStudents.get().length - singleCourse.get().students.length;
     }
   },
-  availableStudents: function(course) {
-    if (course) {
-      return findStudentsNotInCourse(course).fetch();
+  availableStudents: function() {
+    if (singleCourse.get()) {
+      return findStudentsNotInCourse(singleCourse.get()).fetch();
     }
   }
+});
+
+Template.addCourseStudent.events({
+  'click .add-student-finish': () => {
+    const selectedStudentIds = [];
+    $.each($('input[type=checkbox]:checked'), (i, e) => {
+      selectedStudentIds.push($(e).val());
+    });
+    addMultipleStudentsToCourse(singleCourse.get()._id, selectedStudentIds);
+  },
 });
