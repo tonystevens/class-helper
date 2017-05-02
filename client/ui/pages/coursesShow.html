@@ -8,6 +8,11 @@
       </div>
       <div class="center">Course Info</div>
       <div class="right">
+      {{#if currentUser}}
+        {{#if isInRole 'teacher'}}
+          <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
+        {{/if}}
+      {{/if}}
       </div>
     </div>
   </div>
@@ -19,7 +24,7 @@
             <strong>{{course.name}}</strong>
             <div class="right">
               {{#if isInRole 'teacher'}}
-                <i data-popup=".edit-course-general-info" class="icon fa fa-pencil-square-o edit-course general-info open-popup"></i>
+                <i class="icon fa fa-pencil-square-o"></i>
               {{/if}}
             </div>
           </div>
@@ -36,7 +41,7 @@
       <div class="swiper-slide">
         <div class="content-block-title">Students
           {{#if isInRole 'teacher'}}
-            <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus edit-course add-students open-popup"></i>
+            <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus add-students open-popup"></i>
           {{/if}}
         </div>
         <div class="list-block">
@@ -56,9 +61,6 @@
       </div>
     </div>
     <div class="swiper-pagination"></div>
-  </div>
-  <div class="popup edit-course-general-info">
-    <a href="#" class="close-popup"> general </a>
   </div>
   <div class="popup edit-course-add-students">
     {{> addCourseStudent course=course}}
