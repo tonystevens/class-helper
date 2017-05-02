@@ -18,7 +18,7 @@
           <div class="card-header">
             <strong>{{course.name}}</strong>
             <div class="right">
-              {{#if currentUser}}
+              {{#if isInRole 'teacher'}}
                 <i data-popup=".edit-course-general-info" class="icon fa fa-pencil-square-o edit-course general-info open-popup"></i>
               {{/if}}
             </div>
@@ -34,8 +34,8 @@
         </div>
       </div>
       <div class="swiper-slide">
-        <div class="content-block-title">Students &nbsp;
-          {{#if currentUser}}
+        <div class="content-block-title">Students
+          {{#if isInRole 'teacher'}}
             <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus edit-course add-students open-popup"></i>
           {{/if}}
         </div>
@@ -45,7 +45,9 @@
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">{{getStudentNameById studentId}}</div>
+              {{#if isInRole 'teacher'}}
                 <div class="item-after"><i class="icon fa fa-trash-o remove-student" id="{{studentId}}"></i></div>
+              {{/if}}
               </div>
             </li>
           {{/each}}

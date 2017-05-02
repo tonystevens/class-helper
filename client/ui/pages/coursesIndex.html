@@ -1,5 +1,4 @@
 <template name="coursesIndex">
-  <!--{{#momentum plugin="fade"}}-->
   <div class="page-content">
     {{#if isInRole 'teacher'}}
       <div class="content-block-title">
@@ -26,22 +25,30 @@
         </ul>
       </div>
     {{else if isInRole 'student'}}
-      <div class="card">
-      <ul class="table-view">
-        <li class="table-view-cell table-view-divider">Joined
-          <button class="btn pull-right add-joined-course" data-toggle-modal="join-course-modal"><span class="icon icon-plus"></span></button></li>
-        {{#each course in joinedCoursesArray}}
-          <li class="table-view-cell">
-            <a class="navigate-right">
-              {{course.name}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
+      <div class="content-block-title">
+        Joined Courses
+      </div>
+      <div class="list-block sortable">
+        <ul>
+          {{#each course in joinedCoursesArray}}
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title">
+                    <a href="{{pathFor 'courses.show' _id=course._id}}">
+                      {{course.name}}
+                    </a>
+                  </div>
+                  <div class="item-after"><i class="fa fa-angle-right"></i></div>
+                </div>
+              </div>
+              <div class="sortable-handler"></div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     {{/if}}
   </div>
-  <!--{{/momentum}}-->
 
   <div class="popup new-course-modal">
     {{> newCourseModal }}

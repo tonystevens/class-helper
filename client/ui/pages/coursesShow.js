@@ -19,7 +19,7 @@ Template.coursesShow.onRendered(function onPageOnRendered() {
     if (this.subscriptionsReady()) {
       coursesRenderHold.release();
     }
-    singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id'), userId: Meteor.userId()}));
+    singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
   });
   if(Meteor.isClient){
     const app = new Framework7();
