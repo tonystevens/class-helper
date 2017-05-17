@@ -53,24 +53,24 @@ Template.uploadForm.events({
     }
   },
   // 'click .take-photo-button': (e, template) => {
-  //   const onSuccess = function(data) {
-  //     // window.resolveLocalFileSystemURL(data, (fileEntry) => {
-  //     //   console.log(fileEntry);
-  //     //   storeImage(fileEntry, template);
-  //     // }, () => {
-  //     //   console.log('failed');
-  //     // });
-  //     storeImage(data, template);
-  //   };
-  //   const onFail = () => { console.log('failed') };
-  //   const options= {
-  //     quality: 50,
-  //     destinationType: 0, //0: data_url, 1: file_url, 2: native_url
-  //     sourceType: 0, //0: photo library, 1: camera, 2: save photo album
-  //     encodingType: 0, //0: jpeg, 1: png
-  //   };
-  //   navigator.camera.getPicture(onSuccess, onFail, options);
-  // },
+	//   const onSuccess = function(data) {
+	//     // window.resolveLocalFileSystemURL(data, (fileEntry) => {
+	//     //   console.log(fileEntry);
+	//     //   storeImage(fileEntry, template);
+	//     // }, () => {
+	//     //   console.log('failed');
+	//     // });
+	//     storeImage(data, template);
+	//   };
+	//   const onFail = () => { console.log('failed') };
+	//   const options= {
+	//     quality: 50,
+	//     destinationType: 0, //0: data_url, 1: file_url, 2: native_url
+	//     sourceType: 0, //0: photo library, 1: camera, 2: save photo album
+	//     encodingType: 0, //0: jpeg, 1: png
+	//   };
+	//   navigator.camera.getPicture(onSuccess, onFail, options);
+	// },
 });
 
 Template.file.helpers({

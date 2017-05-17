@@ -18,6 +18,9 @@
 			<ul>
 				<li>
 					<div class="item-content">
+						<div class="item-media">
+							<i class="icon fa fa-user-circle-o fa-lg"></i>
+						</div>
 						<div class="item-inner">
 							<div class="item-input">
 								<input type="text" placeholder="Name">
@@ -27,6 +30,9 @@
 				</li>
 				<li>
 					<div class="item-content">
+						<div class="item-media">
+							<i class="icon fa fa-id-card-o fa-lg"></i>
+						</div>
 						<div class="item-inner">
 							<div class="item-input">
 								<input type="text" placeholder="Description">
@@ -36,8 +42,10 @@
 				</li>
 				<li>
 					<div class="item-content">
+						<div class="item-media">
+							<i class="icon fa fa-check fa-lg"></i>
+						</div>
 						<div class="item-inner">
-							<div class="item-title label">Private</div>
 							<div class="item-input">
 								<label class="label-switch">
 									<input type="checkbox">
@@ -47,16 +55,39 @@
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="item-content">
-						<div class="item-inner">
-							<div class="item-input">
-								<input id="fileInput" type="file" multiple/>
+				{{#if isReadyToShowFiles}}
+					<li>
+						<div class="item-content">
+							<div class="item-media">
+								<i class="icon fa fa-paperclip fa-lg"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-input">
+									{{#each file in attachedFiles}}
+										<div class="chip">
+											<div class="chip-media bg-teal">C</div>
+											<div class="chip-label">{{file.name}}</div>
+											<a href="#" class="chip-delete"></a>
+										</div>
+									{{/each}}
+								</div>
 							</div>
 						</div>
-					</div>
-				</li>
+					</li>
+				{{/if}}
 			</ul>
+		</div>
+		<div class="upload-form" id="uploadFile">
+		{{#with currentUpload}}
+			<h1 id="percentage">{{progress.get}}%</h1>
+		{{else}}
+			<div class="sm-row">
+				<input class="invisible" id="userAttachment" type="file" name="userAttachment" required="" multiple="">
+				<div class="upload-icon" id="uploadIcon"><i class="fa fa-cloud-upload"></i>
+					<h2>Add Attachment(s)</h2>
+				</div>
+			</div>
+		{{/with}}
 		</div>
 	</div>
 </template>
