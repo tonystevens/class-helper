@@ -1,66 +1,83 @@
 <template name="coursesShow">
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="left">
-        {{#if currentUser}}
-          <a href="{{pathFor 'courses.index'}}"><i class="icon icon-back"></i></a>
-        {{/if}}
-      </div>
-      <div class="center">Course Info</div>
-      <div class="right">
-      {{#if currentUser}}
-        {{#if isInRole 'teacher'}}
-          <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
-        {{/if}}
-      {{/if}}
-      </div>
-    </div>
-  </div>
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <div class="card">
-          <div class="card-header">
-            <strong>{{course.name}}</strong>
-            <div class="right">
-              {{#if isInRole 'teacher'}}
-                <i class="icon fa fa-pencil-square-o"></i>
-              {{/if}}
-            </div>
-          </div>
-          <div class="card-content">
-            <div class="card-content-inner">
-              {{course.description}}
-            </div>
-          </div>
-          <div class="card-footer">
-            {{course.createAt}}
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="content-block-title">Students
-          {{#if isInRole 'teacher'}}
-            <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus add-students open-popup"></i>
+  <div data-page="home" class="page toolbar-fixed navbar-fixed">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="left">
+          {{#if currentUser}}
+            <a href="{{pathFor 'courses.index'}}"><i class="icon icon-back"></i></a>
           {{/if}}
         </div>
-        <div class="list-block">
-          <ul>
-          {{#each studentId in studentIds}}
-            <li class="item-content">
-              <div class="item-inner">
-                <div class="item-title">{{getStudentNameById studentId}}</div>
-              {{#if isInRole 'teacher'}}
-                <div class="item-after"><i class="icon fa fa-trash-o remove-student" id="{{studentId}}"></i></div>
-              {{/if}}
-              </div>
-            </li>
-          {{/each}}
-          </ul>
+        <div class="center">Course Info</div>
+        <div class="right">
+          {{#if currentUser}}
+            {{#if isInRole 'teacher'}}
+              <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
+            {{/if}}
+          {{/if}}
         </div>
       </div>
     </div>
-    <div class="swiper-pagination"></div>
+    <div class="toolbar tabbar">
+      <div class="toolbar-inner">
+        <a href="#course-general-info" class="tab-link active">
+          <i class="fa fa-info-circle fa-lg" style="padding-bottom: 0"></i>
+          <span class="tabbar-label" style="font-size: 12px">Info</span>
+        </a>
+        <a href="#course-students" class="tab-link">
+          <i class="fa fa-users fa-lg"></i>
+          <span class="tabbar-label" style="font-size: 12px">Students</span>
+        </a>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="content-block">
+        <div class="tabs">
+          <div id="course-general-info" class="tab active">
+            <div class="card">
+              <div class="card-header">
+                <strong>{{course.name}}</strong>
+                <div class="right">
+                  {{#if isInRole 'teacher'}}
+                    <i class="icon fa fa-pencil-square-o"></i>
+                  {{/if}}
+                </div>
+              </div>
+              <div class="card-content">
+                <div class="card-content-inner">
+                  {{course.description}}
+                </div>
+              </div>
+              <div class="card-footer">
+                {{course.createAt}}
+              </div>
+            </div>
+            {{#if isInRole 'teacher'}}
+            {{/if}}
+          </div>
+          <div id="course-students" class="tab">
+            <div class="content-block-title">Students
+              {{#if isInRole 'teacher'}}
+                <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus add-students open-popup"></i>
+              {{/if}}
+            </div>
+            <div class="list-block">
+            <ul>
+              {{#each studentId in studentIds}}
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">{{getStudentNameById studentId}}</div>
+                    {{#if isInRole 'teacher'}}
+                      <div class="item-after"><i class="icon fa fa-trash-o remove-student" id="{{studentId}}"></i></div>
+                    {{/if}}
+                  </div>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="popup edit-course-add-students">
     {{> addCourseStudent course=course}}

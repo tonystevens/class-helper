@@ -10,7 +10,7 @@ const selectedStudents = new ReactiveVar([]);
 
 Template.addCourseStudent.onRendered(function onPageOnRendered() {
   if(Meteor.isClient){
-    let app = new Framework7();
+    let app = new Framework7({tapHold: false});
     let $$ = Dom7;
   }
 });
@@ -38,5 +38,8 @@ Template.addCourseStudent.events({
       selectedStudentIds.push($(e).val());
     });
     addMultipleStudentsToCourse(singleCourse.get()._id, selectedStudentIds);
+  },
+  'taphold .label-checkbox': (e) => {
+    console.log('holding it...');
   },
 });

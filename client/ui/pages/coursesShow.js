@@ -14,7 +14,11 @@ const singleCourse = new ReactiveVar(undefined);
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 
-Template.coursesShow.onRendered(function onPageOnRendered() {
+Template.coursesShow.onCreated(function onTemplateCreated() {
+  this.currentUpload = new ReactiveVar(false);
+});
+
+Template.coursesShow.onRendered(function onTemplateRendered() {
   this.autorun(() => {
     if (this.subscriptionsReady()) {
       coursesRenderHold.release();
@@ -46,7 +50,10 @@ Template.coursesShow.helpers({
       studentMap.set(studentId, student.profile.firstName + ', ' + student.profile.lastName);
       return studentMap.get(studentId);
     }
-  }
+  },
+  currentUpload: function () {
+    return Template.instance().currentUpload.get();
+  },
 });
 
 Template.coursesShow.events({
@@ -85,7 +92,7 @@ Template.coursesShow.events({
       swal("Removed!", `${studentMap.get(studentId)} has been removed.`, "success");
       removeStudentFromCourse(singleCourse.get()._id, studentId);
     });
-  }
+  },
 });
 
 function getUpdateCourseAttributes() {

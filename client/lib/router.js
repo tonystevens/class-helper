@@ -20,7 +20,10 @@ FlowRouter.route('/', {
     if (Meteor.user()) {
       BlazeLayout.render('appLayout', { top: 'header', main: 'app_rootRedirector'});
     } else {
-      FlowRouter.go('App.home');
+      BlazeLayout.render('splash');
+      Meteor.setTimeout(function() {
+        FlowRouter.go('App.home');
+      }, 2000);
     }
   }
 });
@@ -36,6 +39,13 @@ FlowRouter.route('/courses/:_id', {
   name: 'courses.show',
   action() {
     BlazeLayout.render('appLayout', { main: 'coursesShow' });
+  },
+});
+
+FlowRouter.route('/courses/:_id/addMaterial', {
+  name: 'courses.addMaterial',
+  action() {
+    BlazeLayout.render('appLayout', { main: 'addCourseMaterial' });
   },
 });
 
