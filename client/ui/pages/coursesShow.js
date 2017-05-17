@@ -16,6 +16,7 @@ const studentMap = new Map();
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.currentUpload = new ReactiveVar(false);
+	singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -23,7 +24,6 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
     if (this.subscriptionsReady()) {
       coursesRenderHold.release();
     }
-    singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
   });
   if(Meteor.isClient){
     const app = new Framework7();
@@ -53,6 +53,9 @@ Template.coursesShow.helpers({
   },
   currentUpload: function () {
     return Template.instance().currentUpload.get();
+  },
+  pathForAddMaterials: function () {
+    return FlowRouter.path('courses.addMaterial', {_id: singleCourse.get()._id}, {name: singleCourse.get().name});
   },
 });
 

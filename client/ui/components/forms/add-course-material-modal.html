@@ -1,34 +1,62 @@
 <template name="addCourseMaterial">
-  <div class="content-block-title">Add Material</div>
-  <div class="list-block">
-    <ul>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            <div class="item-input">
-              <input type="text" placeholder="Name">
-            </div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            <div class="item-input">
-              <input type="text" placeholder="Description">
-            </div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            <div class="item-input">
-              <input type="date" placeholder="Birth day" value="2014-04-30">
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				{{#if currentUser}}
+					{{#if isInRole 'teacher'}}
+						<a href="{{pathFor 'courses.show' _id=course._id}}"><i class="icon icon-back"></i></a>
+					{{/if}}
+				{{/if}}
+			</div>
+			<div class="center">{{course.name}}</div>
+			<div class="right"></div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div class="content-block-title">Add Material</div>
+		<div class="list-block">
+			<ul>
+				<li>
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-input">
+								<input type="text" placeholder="Name">
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-input">
+								<input type="text" placeholder="Description">
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title label">Private</div>
+							<div class="item-input">
+								<label class="label-switch">
+									<input type="checkbox">
+									<div class="checkbox"></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-input">
+								<input id="fileInput" type="file" multiple/>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </template>

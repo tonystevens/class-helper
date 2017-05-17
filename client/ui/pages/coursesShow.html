@@ -46,12 +46,13 @@
                 <div class="card-content-inner">
                   {{course.description}}
                 </div>
-              </div>
+            </div>
               <div class="card-footer">
                 {{course.createAt}}
               </div>
             </div>
             {{#if isInRole 'teacher'}}
+	            <a href="{{pathForAddMaterials}}">Add Material(s)</a>
             {{/if}}
           </div>
           <div id="course-students" class="tab">
