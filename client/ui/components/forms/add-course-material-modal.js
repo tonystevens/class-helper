@@ -25,28 +25,48 @@ Template.addCourseMaterial.helpers({
 
 Template.addCourseMaterial.events({
 	'click #uploadIcon': (e, template) => {
+    e.stopPropagation();
 		template.$('#userAttachment').click();
 	},
-	'change #userAttachment': (e, template) => {
+	'change #userAttachment': (e) => {
 		if (e.currentTarget.files && e.currentTarget.files[0]) {
 			$(e.currentTarget.files).each((i, file) => {
 				if (!isPreviousUploadedFile(file)) {
-					files.get().push(file);
+					const fileArray = files.get();
+          fileArray.push(file);
+          files.set(fileArray);
 				}
 			});
-			console.log(files.get());
 			dep.changed();
 		}
+	},
+	'click .chip-delete': (e) => {
+    e.preventDefault();
+    removeFile(e.currentTarget.name);
+    dep.changed();
+	},
+	'click .save-material': (e, template) => {
+		//TODO insert image, get ids, then insert materials
+		console.log(files.get());
 	}
 });
 
+
 function isPreviousUploadedFile(file) {
-	console.log('checking isPreviousUploadedFile');
-	files.get().forEach((oldFile) => {
-		if (oldFile.name === file.name) {
-			console.log('file exist!');
-			return true;
+	return files.get().some((oldFile) => oldFile.name === file.name);
+}
+
+function removeFile(fileName) {
+	let index = files.get().length;
+  $(files.get()).each((i, file) => {
+    if (file.name === fileName) {
+      index = i;
+      return false;
 		}
 	});
-	return false;
+  if (index < files.get().length) {
+    const fileArray = files.get();
+    fileArray.splice(index, 1);
+    files.set(fileArray);
+	}
 }

@@ -5,6 +5,7 @@
 .invisible {
   display: none !important;
   visibility: hidden !important;
+  position: absolute;
 }
 
 .sm-row {
@@ -20,9 +21,11 @@
   color: #4e546d;
 }
 
-.upload-icon:hover {
-  color: #bbb;
-}
+//@media (min-width: 600px) {
+//  .upload-icon:hover {
+//    color: #bbb;
+//  }
+//}
 
 .upload-icon i.fa.fa-cloud-upload {
   font-size: 4rem;
@@ -32,5 +35,3 @@
   font-size: 1.5rem;
   line-height: 2rem;
 }
-
-

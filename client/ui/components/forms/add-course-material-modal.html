@@ -9,7 +9,7 @@
 				{{/if}}
 			</div>
 			<div class="center">{{course.name}}</div>
-			<div class="right"></div>
+			<div class="right"><a href="{{pathFor 'courses.show' _id=course._id}}" class="save-material">Save</a></div>
 		</div>
 	</div>
 	<div class="page-content">
@@ -55,26 +55,25 @@
 						</div>
 					</div>
 				</li>
-				{{#if isReadyToShowFiles}}
-					<li>
-						<div class="item-content">
-							<div class="item-media">
-								<i class="icon fa fa-paperclip fa-lg"></i>
-							</div>
-							<div class="item-inner">
-								<div class="item-input">
-									{{#each file in attachedFiles}}
-										<div class="chip">
-											<div class="chip-media bg-teal">C</div>
-											<div class="chip-label">{{file.name}}</div>
-											<a href="#" class="chip-delete"></a>
-										</div>
-									{{/each}}
-								</div>
-							</div>
-						</div>
-					</li>
-				{{/if}}
+        <li>
+          <div class="item-content">
+            <div class="item-media">
+              <i class="icon fa fa-paperclip fa-lg"></i>
+            </div>
+            <div class="item-inner">
+              <div class="item-input">
+              {{#if isReadyToShowFiles}}
+                {{#each file in attachedFiles}}
+                  <div class="chip">
+                    <div class="chip-label">{{file.name}}</div>
+                    <a href="#" class="chip-delete" name="{{file.name}}"></a>
+                  </div>
+                {{/each}}
+              {{/if}}
+              </div>
+            </div>
+          </div>
+        </li>
 			</ul>
 		</div>
 		<div class="upload-form" id="uploadFile">
