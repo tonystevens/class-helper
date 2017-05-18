@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Images } from '../../../lib/images.js';
+import { Files } from '../../../lib/files.js';
 
 Template.test.onCreated(() => {
   let myApp = new Framework7({
@@ -30,7 +30,7 @@ Template.uploadForm.events({
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case
       // multiple files were selected
-      const upload = Images.insert({
+      const upload = Files.insert({
         file: e.currentTarget.files[0],
         streams: 'dynamic',
         chunkSize: 'dynamic'
@@ -75,12 +75,12 @@ Template.uploadForm.events({
 
 Template.file.helpers({
   imageFile: function () {
-    return Images.findOne();
+    return Files.findOne();
   },
   uploadImages: function () {
     const files = [];
-    Images.collection.find({}).forEach(function (fileRef) {
-      fileRef.link = Images.link(fileRef, 'thumbnail');
+    Files.collection.find({}).forEach(function (fileRef) {
+      fileRef.link = Files.link(fileRef, 'thumbnail');
       files.push(fileRef);
     });
     return files;
@@ -90,7 +90,7 @@ Template.file.helpers({
 
 
 // function storeImage(file, template) {
-//   const upload = Images.insert({
+//   const upload = Files.insert({
 //     file: file,
 //     type: 'image/jpeg',
 //     isBase64: true,
