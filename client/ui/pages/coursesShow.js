@@ -10,13 +10,11 @@ import { updateCourse, deleteCourse, removeStudentFromCourse } from '../../../li
 
 import './coursesShow.html';
 
-const singleCourse = new ReactiveVar(undefined);
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
-  this.currentUpload = new ReactiveVar(false);
-	singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
+	this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -37,10 +35,12 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
 
 Template.coursesShow.helpers({
   course: function() {
-    return singleCourse.get();
+    return Template.instance().singleCourse.get();
   },
-  studentIds: function() {
-    return singleCourse.get() !== undefined ? singleCourse.get().students : [];
+  studentIds() {
+    console.log('querying studentIds');
+    const _singleCourse = Template.instance().singleCourse.get();
+    return _singleCourse? _singleCourse.students : [];
   },
   getStudentNameById: function(studentId) {
     const student = Meteor.users.findOne({_id: studentId});
@@ -51,24 +51,22 @@ Template.coursesShow.helpers({
       return studentMap.get(studentId);
     }
   },
-  currentUpload: function () {
-    return Template.instance().currentUpload.get();
-  },
   pathForAddMaterials: function () {
-    return FlowRouter.path('courses.addMaterial', {_id: singleCourse.get()._id}, {name: singleCourse.get().name});
+    const _singleCourse = Template.instance().singleCourse.get();
+    return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
   },
 });
 
 Template.coursesShow.events({
-  'click .submit-course-edit': function() {
-    const course = getUpdateCourseAttributes();
+  'click .submit-course-edit': function(e, template) {
+    const course = getUpdateCourseAttributes(template);
     const updateCourseAttributes = {
       name: course.courseName,
       description: course.courseDescription,
     };
     updateCourse(course.courseId, updateCourseAttributes);
   },
-  'click .delete-course': function () {
+  'click .delete-course': function (e, template) {
     swal({
       title: "Are you sure?",
       text: "Course won't be recoverable!",
@@ -79,11 +77,11 @@ Template.coursesShow.events({
       closeOnConfirm: false
     }, () => {
       swal("Deleted!", "Your course has been deleted.", "success");
-      deleteCourse(singleCourse.get()._id);
+      deleteCourse(template.singleCourse.get()._id);
       FlowRouter.go('courses.index');
     });
   },
-  'click .remove-student': (e) => {
+  'click .remove-student': (e, template) => {
     const studentId = e.target.id;
     swal({
       title: `Remove ${studentMap.get(studentId)}?`,
@@ -92,14 +90,14 @@ Template.coursesShow.events({
       confirmButtonText: "Yes, remove!",
       closeOnConfirm: false
     }, () => {
+      removeStudentFromCourse(template.singleCourse.get()._id, studentId);
       swal("Removed!", `${studentMap.get(studentId)} has been removed.`, "success");
-      removeStudentFromCourse(singleCourse.get()._id, studentId);
     });
   },
 });
 
-function getUpdateCourseAttributes() {
-  const courseId = singleCourse.get()._id;
+function getUpdateCourseAttributes(template) {
+  const courseId = template.singleCourse.get()._id;
   const $courseEditModal = $('#edit-course-modal');
   const courseName = $courseEditModal.find('[name=course_name]').val();
   const courseDescription = $courseEditModal.find('[name=course_description]').val();

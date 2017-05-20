@@ -5,40 +5,44 @@ import { Files } from '../../../../lib/files.js';
 import './add-course-material-modal.html';
 
 const files = new ReactiveVar(undefined);
-const dep = new Deps.Dependency();
+const fileReloadDep = new Deps.Dependency();
 
 Template.addCourseMaterial.onCreated(function onAddCourseMaterialCreated() {
-	this.singleCourse.set({_id: FlowRouter.getParam('_id'), name: FlowRouter.getQueryParam('name')});
+	this.singleCourse = new ReactiveVar({_id: FlowRouter.getParam('_id'), name: FlowRouter.getQueryParam('name')});
 	files.set([]);
-	this.currentUpload = new ReactiveVar(false);
 	this.uploadQTY = 0;
 	this.uploads = new ReactiveVar([]);
-	this.addToUploads = (file, template) => {
-		const uploads = template.uploads.get();
-		uploads.push(file);
-		template.uploads.set(uploads);
-		template.uploadQTY++;
+	this.addToUploads = (upload) => {
+		let uploads = this.uploads.get();
+		if (!uploads) {
+			uploads = [];
+		}
+		uploads.push(upload);
+    this.uploads.set(uploads);
 	};
-	this.removeFromUploads = (file, template) => {
-		const uploads = template.uploads.get();
+	this.removeFromUploads = (file) => {
+		const uploads = this.uploads.get();
 		$(uploads).each((i, upload) => {
-			if (upload.name === file.name) {
+			if (upload.file.name === file.name) {
 				uploads.splice(i, 1);
-				template.uploads.set(uploads);
+        this.uploads.set(uploads);
+        this.uploadQTY--;
 				return false;
 			}
 		});
-		template.uploadQTY--;
-	}
+		if (this.uploadQTY === 0) {
+      this.uploads.set(false);
+		}
+	};
 });
 
 Template.addCourseMaterial.helpers({
 	attachedFiles: function() {
-		dep.depend();
+		fileReloadDep.depend();
 		return files.get();
 	},
-	course: () => this.singleCourse.get(),
-	currentUpload: () => Template.instance().currentUpload.get(),
+	course: () => Template.instance().singleCourse.get(),
+  hasUploads: () => Template.instance().uploads.get(),
 	isReadyToShowFiles: () => files.get().length !== 0,
 	status: () => {
 		const uploads = Template.instance().uploads.get();
@@ -48,6 +52,7 @@ Template.addCourseMaterial.helpers({
 		if (uploads) {
 			uploads.forEach((upload) => {
 				progress += upload.progress.get();
+				i++;
 			});
 			if (i < uploadQTY) {
 				progress += 100 * (uploadQTY - i);
@@ -72,33 +77,46 @@ Template.addCourseMaterial.events({
           files.set(fileArray);
 				}
 			});
-			dep.changed();
+			fileReloadDep.changed();
 		}
 	},
 	'click .chip-delete': (e) => {
     e.preventDefault();
     removeFile(e.currentTarget.name);
-    dep.changed();
+    fileReloadDep.changed();
 	},
 	'click .save-material': (e, template) => {
 		//TODO insert image, get ids, then insert materials
-		console.log(files.get());
-		if (!files.length) {
+		if (!files.get().length) {
 			return false;
 		}
-		template.uploadQTY = files.length;
+		template.uploadQTY = files.get().length;
     $(files.get()).each((i, file) => {
-			Files.insert({
-				file: file,
-				streams: 'dynamic',
-				chunkSize: 'dynamic',
-			}, false).on('error', (error) => {
-				console.log(error);
-			}).on('start', () => {
-				template.addToUploads(this, template);
-			}).start();
-	    template.removeFromUploads(file, template);
+      const upload = Files.insert({
+        file: file,
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        onUploaded: (error, fileObj) => {
+          if (error) {
+            console.log(error);
+          } else {
+            // console.log(fileObj._id);
+          }
+        }
+      }, false);
+      upload.on('error', (error) => {
+        console.log(error);
+        template.removeFromUploads(file);
+      });
+      upload.on('start', () => {
+        template.addToUploads(upload);
+      });
+      upload.on('end', () => {
+        template.removeFromUploads(file);
+      });
+      upload.start();
     });
+    files.set([]);
 	}
 });
 
