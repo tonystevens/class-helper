@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Files } from '../../../../lib/files.js';
 
+import { addSingleMaterialToCourse, insertMaterial } from '../../../../lib/methods.js';
+
 import './add-course-material-modal.html';
 
 const files = new ReactiveVar(undefined);
@@ -34,6 +36,10 @@ Template.addCourseMaterial.onCreated(function onAddCourseMaterialCreated() {
       this.uploads.set(false);
 		}
 	};
+
+  if(Meteor.isClient){
+    this.myApp = new ReactiveVar(new Framework7());
+  }
 });
 
 Template.addCourseMaterial.helpers({
@@ -86,37 +92,59 @@ Template.addCourseMaterial.events({
     fileReloadDep.changed();
 	},
 	'click .save-material': (e, template) => {
-		//TODO insert image, get ids, then insert materials
-		if (!files.get().length) {
+		//insert image, get ids, then insert materials
+		const formData = template.myApp.get().formToData('#materialForm');
+		if (!isReadyToSave(formData)) {
+			alert('Please enter name, description, and file');
+			return false;
+		} else if (files.get().length > 10) {
+			alert('Can only take 10 files');
 			return false;
 		}
-		template.uploadQTY = files.get().length;
-    $(files.get()).each((i, file) => {
-      const upload = Files.insert({
-        file: file,
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
-        onUploaded: (error, fileObj) => {
-          if (error) {
-            console.log(error);
-          } else {
-            // console.log(fileObj._id);
-          }
-        }
-      }, false);
-      upload.on('error', (error) => {
-        console.log(error);
-        template.removeFromUploads(file);
-      });
-      upload.on('start', () => {
-        template.addToUploads(upload);
-      });
-      upload.on('end', () => {
-        template.removeFromUploads(file);
-      });
-      upload.start();
-    });
-    files.set([]);
+
+    let fileIds = [];
+		let fileTypes = [];
+    template.uploadQTY = files.get().length;
+		$(files.get()).each((i, file) => {
+			const upload = Files.insert({
+				file: file,
+				streams: 'dynamic',
+				chunkSize: 'dynamic',
+				onUploaded: (error, fileObj) => {
+					if (error) {
+						console.log(error);
+					} else {
+						fileIds.push(fileObj._id);
+						fileTypes.push(fileObj.type);
+						if (template.uploadQTY === 1) {//the last one
+              const materialAttributes = {
+                name: formData.materialName,
+                description: formData.materialDescription,
+                fileIds: fileIds,
+                fileTypes: fileTypes,
+                isPrivate: formData.materialPrivacy.length === 1,
+              };
+              const material = insertMaterial(materialAttributes);
+              const courseId = template.singleCourse.get()._id;
+              addSingleMaterialToCourse(courseId, material._id);
+              FlowRouter.go('courses.show', {_id: courseId});
+						}
+					}
+				}
+			}, false);
+			upload.on('error', (error) => {
+				console.log(error);
+				template.removeFromUploads(file);
+			});
+			upload.on('start', () => {
+				template.addToUploads(upload);
+			});
+			upload.on('end', () => {
+				template.removeFromUploads(file);
+			});
+			upload.start();
+		});
+		files.set([]);
 	}
 });
 
@@ -137,4 +165,10 @@ function removeFile(fileName) {
     fileArray.splice(index, 1);
     files.set(fileArray);
 	}
+}
+
+function isReadyToSave(formData) {
+  return files.get().length
+		&& formData.materialName !== ''
+		&& formData.materialDescription !== '';
 }

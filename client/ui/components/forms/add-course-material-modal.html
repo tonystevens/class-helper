@@ -14,7 +14,7 @@
 	</div>
 	<div class="page-content">
 		<div class="content-block-title">Add Material</div>
-		<div class="list-block">
+		<form id="materialForm" class="list-block">
 			<ul>
 				<li>
 					<div class="item-content">
@@ -23,7 +23,7 @@
 						</div>
 						<div class="item-inner">
 							<div class="item-input">
-								<input type="text" id="materialName" placeholder="Name">
+								<input type="text" name="materialName" placeholder="Name">
 							</div>
 						</div>
 					</div>
@@ -35,7 +35,7 @@
 						</div>
 						<div class="item-inner">
 							<div class="item-input">
-								<input type="text" id="materialDescription" placeholder="Description">
+								<input type="text" name="materialDescription" placeholder="Description">
 							</div>
 						</div>
 					</div>
@@ -48,8 +48,8 @@
 						<div class="item-inner">
 							<div class="item-input">
 								<label class="label-switch">
-									<input type="checkbox">
-									<div class="checkbox" id="materialPublicity"></div>
+									<input type="checkbox" name="materialPrivacy">
+									<div class="checkbox"></div>
 								</label>
 							</div>
 						</div>
@@ -75,7 +75,7 @@
           </div>
         </li>
 			</ul>
-		</div>
+		</form>
 		<div class="upload-form" id="uploadFile">
 		{{#unless hasUploads}}
       <div class="sm-row">

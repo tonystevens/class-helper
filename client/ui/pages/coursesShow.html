@@ -27,6 +27,10 @@
           <i class="fa fa-users fa-lg"></i>
           <span class="tabbar-label" style="font-size: 12px">Students</span>
         </a>
+        <a href="#course-timeline" class="tab-link">
+          <i class="fa fa-list-alt fa-lg"></i>
+          <span class="tabbar-label" style="font-size: 12px">Timeline</span>
+        </a>
       </div>
     </div>
     <div class="page-content">
@@ -62,7 +66,7 @@
               {{/if}}
             </div>
             <div class="list-block">
-            <ul>
+              <ul>
               {{#each studentId in studentIds}}
                 <li class="item-content">
                   <div class="item-inner">
@@ -73,8 +77,11 @@
                   </div>
                 </li>
               {{/each}}
-            </ul>
+              </ul>
+            </div>
           </div>
+          <div id="course-timeline" class="tab">
+            timeline
           </div>
         </div>
       </div>
