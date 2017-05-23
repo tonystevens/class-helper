@@ -6,7 +6,7 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 
-import { updateCourse, deleteCourse, removeStudentFromCourse } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
@@ -55,6 +55,14 @@ Template.coursesShow.helpers({
     const _singleCourse = Template.instance().singleCourse.get();
     return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
   },
+  courseMaterials: () =>  findMaterialByIds(Template.instance().singleCourse.get().materials)
+    .map((material) => {
+      material.createDay = moment(material.createAt).format('D');
+      material.createMonth = moment(material.createAt).format('MMM');
+      material.createTime = moment(material.createAt).format('h:m a');
+      material.fileNum = material.fileIds.length;
+      return material;
+    }),
 });
 
 Template.coursesShow.events({
