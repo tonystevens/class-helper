@@ -122,7 +122,8 @@ Template.addCourseMaterial.events({
                 description: formData.materialDescription,
                 fileIds: fileIds,
                 fileTypes: fileTypes,
-                isPrivate: formData.materialPrivacy.length === 1,
+                isPrivate: formData.privacy === 'privacy',
+								category: formData.category,
               };
               const material = insertMaterial(materialAttributes);
               const courseId = template.singleCourse.get()._id;
