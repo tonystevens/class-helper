@@ -166,6 +166,9 @@ function removeFile(fileName) {
     fileArray.splice(index, 1);
     files.set(fileArray);
 	}
+	if (!files.get().length) {
+		$('#userAttachment').val('');
+	}
 }
 
 function isReadyToSave(formData) {
