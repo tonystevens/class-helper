@@ -15,6 +15,7 @@ const studentMap = new Map();
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
+  this.onTimelineTab = new ReactiveVar(false);
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -101,6 +102,9 @@ Template.coursesShow.events({
       removeStudentFromCourse(template.singleCourse.get()._id, studentId);
       swal("Removed!", `${studentMap.get(studentId)} has been removed.`, "success");
     });
+  },
+  'click .tab-link': (e, template) => {
+    // console.log(e.target.parent('a'))
   },
 });
 
