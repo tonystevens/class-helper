@@ -12,6 +12,7 @@ import './coursesShow.html';
 
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
+const filterDep = new Deps.Dependency();
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
@@ -24,6 +25,7 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
       coursesRenderHold.release();
     }
     this.singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
+    this.onTimelineTab = new ReactiveVar(false);
   });
   if(Meteor.isClient){
     const app = new Framework7();
@@ -64,6 +66,10 @@ Template.coursesShow.helpers({
       material.fileNum = material.fileIds.length;
       return material;
     }),
+  isTimelineTab: () => {
+    filterDep.depend();
+    return Template.instance().onTimelineTab.get();
+  },
 });
 
 Template.coursesShow.events({
@@ -104,7 +110,8 @@ Template.coursesShow.events({
     });
   },
   'click .tab-link': (e, template) => {
-    // console.log(e.target.parent('a'))
+    template.onTimelineTab.set(e.target.parentNode.href.endsWith('course-timeline'));
+    filterDep.changed();
   },
 });
 

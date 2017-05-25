@@ -11,7 +11,11 @@
         <div class="right">
           {{#if currentUser}}
             {{#if isInRole 'teacher'}}
-              <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
+              {{#if isTimelineTab}}
+                <a href="#" data-popover=".popover-filter" class="open-popover"><i class="icon fa fa-filter filter-timeline fa-lg"></i></a>
+              {{else}}
+                <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
+              {{/if}}
             {{/if}}
           {{/if}}
         </div>
@@ -104,5 +108,18 @@
   </div>
   <div class="popup edit-course-add-students">
     {{> addCourseStudent course=course}}
+  </div>
+  <div class="popover popover-filter">
+    <div class="popover-angle"></div>
+    <div class="popover-inner">
+      <div class="list-block">
+        <ul>
+          <li><a href="#" class="list-button item-link">Link 1</a></li>
+          <li><a href="#" class="list-button item-link">Link 2</a></li>
+          <li><a href="#" class="list-button item-link">Link 3</a></li>
+          <li><a href="#" class="list-button item-link">Link 4</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
