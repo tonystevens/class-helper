@@ -10,12 +10,10 @@
         <div class="center">Course Info</div>
         <div class="right">
           {{#if currentUser}}
-            {{#if isInRole 'teacher'}}
-              {{#if isTimelineTab}}
-                <a href="#" data-popover=".popover-filter" class="open-popover"><i class="icon fa fa-filter filter-timeline fa-lg"></i></a>
-              {{else}}
-                <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
-              {{/if}}
+            {{#if isTimelineTab}}
+              <a href="#" data-popover=".popover-filter" class="open-popover"><i class="icon fa fa-filter filter-timeline fa-lg"></i></a>
+            {{else}}
+              <a href="#"><i class="icon fa fa-trash-o delete-course fa-lg"></i></a>
             {{/if}}
           {{/if}}
         </div>
@@ -87,6 +85,7 @@
           <div id="course-timeline" class="tab">
             <div class="timeline">
               {{#each material in courseMaterials}}
+                {{#if isInCategory material.category}}
                 <div class="timeline-item">
                   <div class="timeline-item-date">{{material.createDay}} <small>{{material.createMonth}}</small></div>
                   <div class="timeline-item-divider"></div>
@@ -99,6 +98,7 @@
                     </div>
                   </div>
                 </div>
+                {{/if}}
               {{/each}}
             </div>
           </div>
@@ -110,16 +110,20 @@
     {{> addCourseStudent course=course}}
   </div>
   <div class="popover popover-filter">
-    <div class="popover-angle"></div>
-    <div class="popover-inner">
-      <div class="list-block">
-        <ul>
-          <li><a href="#" class="list-button item-link">Link 1</a></li>
-          <li><a href="#" class="list-button item-link">Link 2</a></li>
-          <li><a href="#" class="list-button item-link">Link 3</a></li>
-          <li><a href="#" class="list-button item-link">Link 4</a></li>
-        </ul>
-      </div>
+    {{> popoverFilter}}
+  </div>
+</template>
+
+<template name="popoverFilter">
+  <div class="popover-angle"></div>
+  <div class="popover-inner">
+    <div class="list-block">
+      <ul>
+        <li><a value="all" href="#" class="list-button item-link show-timeline">All</a></li>
+        <li><a value="homework" href="#" class="list-button item-link show-timeline">Homework</a></li>
+        <li><a value="annotation" href="#" class="list-button item-link show-timeline">Annotation</a></li>
+        <li><a value="other" href="#" class="list-button item-link show-timeline">Other</a></li>
+      </ul>
     </div>
   </div>
 </template>

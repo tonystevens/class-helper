@@ -12,7 +12,8 @@ import './coursesShow.html';
 
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
-const filterDep = new Deps.Dependency();
+const showFilterIconDep = new Deps.Dependency();
+const filter = new ReactiveVar('all');
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
@@ -58,17 +59,22 @@ Template.coursesShow.helpers({
     const _singleCourse = Template.instance().singleCourse.get();
     return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
   },
-  courseMaterials: () =>  findMaterialByIds(Template.instance().singleCourse.get().materials)
-    .map((material) => {
-      material.createDay = moment(material.createAt).format('D');
-      material.createMonth = moment(material.createAt).format('MMM');
-      material.createTime = moment(material.createAt).format('h:m a');
-      material.fileNum = material.fileIds.length;
-      return material;
-    }),
+  courseMaterials: function() {
+    return findMaterialByIds(Template.instance().singleCourse.get().materials)
+      .map((material) => {
+        material.createDay = moment(material.createAt).format('D');
+        material.createMonth = moment(material.createAt).format('MMM');
+        material.createTime = moment(material.createAt).format('h:m a');
+        material.fileNum = material.fileIds.length;
+        return material;
+      })
+  },
   isTimelineTab: () => {
-    filterDep.depend();
+    showFilterIconDep.depend();
     return Template.instance().onTimelineTab.get();
+  },
+  isInCategory: (category) => {
+    return (category && category === filter.get()) || filter.get() === 'all';
   },
 });
 
@@ -118,8 +124,15 @@ Template.coursesShow.events({
     }
 
     template.onTimelineTab.set(enableFilterIcon);
-    filterDep.changed();
+    showFilterIconDep.changed();
   },
+});
+
+Template.popoverFilter.events({
+  'click .show-timeline': (e, template) => {
+    filter.set($(e.target).attr('value'));
+    f7App.get().closeModal('.popover-filter');
+  }
 });
 
 function getUpdateCourseAttributes(template) {
