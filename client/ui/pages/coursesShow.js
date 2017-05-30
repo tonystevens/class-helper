@@ -110,7 +110,14 @@ Template.coursesShow.events({
     });
   },
   'click .tab-link': (e, template) => {
-    template.onTimelineTab.set(e.target.parentNode.href.endsWith('course-timeline'));
+    let enableFilterIcon = false;
+    if (e.target.href && e.target.href.endsWith('course-timeline')) {
+      enableFilterIcon = true;
+    } else if (e.target.parentNode.href && e.target.parentNode.href.endsWith('course-timeline')) {
+      enableFilterIcon = true;
+    }
+
+    template.onTimelineTab.set(enableFilterIcon);
     filterDep.changed();
   },
 });
