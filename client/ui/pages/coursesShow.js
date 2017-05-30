@@ -6,15 +6,18 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 
-import { updateCourse, deleteCourse, removeStudentFromCourse } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
+const showFilterIconDep = new Deps.Dependency();
+const filter = new ReactiveVar('all');
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
+  this.onTimelineTab = new ReactiveVar(false);
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -23,6 +26,7 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
       coursesRenderHold.release();
     }
     this.singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
+    this.onTimelineTab = new ReactiveVar(false);
   });
   if(Meteor.isClient){
     const app = new Framework7();
@@ -54,6 +58,23 @@ Template.coursesShow.helpers({
   pathForAddMaterials: function () {
     const _singleCourse = Template.instance().singleCourse.get();
     return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
+  },
+  courseMaterials: function() {
+    return findMaterialByIds(Template.instance().singleCourse.get().materials)
+      .map((material) => {
+        material.createDay = moment(material.createAt).format('D');
+        material.createMonth = moment(material.createAt).format('MMM');
+        material.createTime = moment(material.createAt).format('h:m a');
+        material.fileNum = material.fileIds.length;
+        return material;
+      })
+  },
+  isTimelineTab: () => {
+    showFilterIconDep.depend();
+    return Template.instance().onTimelineTab.get();
+  },
+  isInCategory: (category) => {
+    return (category && category === filter.get()) || filter.get() === 'all';
   },
 });
 
@@ -94,6 +115,24 @@ Template.coursesShow.events({
       swal("Removed!", `${studentMap.get(studentId)} has been removed.`, "success");
     });
   },
+  'click .tab-link': (e, template) => {
+    let enableFilterIcon = false;
+    if (e.target.href && e.target.href.endsWith('course-timeline')) {
+      enableFilterIcon = true;
+    } else if (e.target.parentNode.href && e.target.parentNode.href.endsWith('course-timeline')) {
+      enableFilterIcon = true;
+    }
+
+    template.onTimelineTab.set(enableFilterIcon);
+    showFilterIconDep.changed();
+  },
+});
+
+Template.popoverFilter.events({
+  'click .show-timeline': (e, template) => {
+    filter.set($(e.target).attr('value'));
+    f7App.get().closeModal('.popover-filter');
+  }
 });
 
 function getUpdateCourseAttributes(template) {
