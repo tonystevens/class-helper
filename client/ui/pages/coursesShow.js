@@ -126,6 +126,13 @@ Template.coursesShow.events({
     template.onTimelineTab.set(enableFilterIcon);
     showFilterIconDep.changed();
   },
+  'click .timeline-item-inner': (e, template) => {
+    let $element = $(e.target);
+    if (!$(e.target).hasClass('timeline-item-inner')) {
+      $element = $(e.target).parent();
+    }
+    $element.toggleClass('ready-to-view');
+  }
 });
 
 Template.popoverFilter.events({
