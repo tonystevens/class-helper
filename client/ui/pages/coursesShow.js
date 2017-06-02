@@ -6,7 +6,7 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 
-import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds, findFilesByIds } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
@@ -128,10 +128,24 @@ Template.coursesShow.events({
   },
   'click .timeline-item-inner': (e, template) => {
     let $element = $(e.target);
-    if (!$(e.target).hasClass('timeline-item-inner')) {
-      $element = $(e.target).parent();
+    while (!$element.hasClass('timeline-item')) {
+      $element = $element.parent();
     }
-    $element.toggleClass('ready-to-view');
+	  $element.siblings().removeClass('ready-to-view');
+	  $element.toggleClass('ready-to-view');
+  },
+  'click .view-button': (e) => {
+    e.stopPropagation();
+	  const material = findMaterialByIds([$(e.target).attr('id')])[0];
+	  if (!material.fileIds.length || material.fileIds.length !== material.fileTypes.length) {
+      return false;
+	  }
+	  const filesCursor = findFilesByIds(material.fileIds);
+	  const imgLinks = filesCursor.each().map((fileCursor) => fileCursor.link());
+	  console.log(imgLinks);
+	  const photos = {photos: imgLinks};
+	  const photoBrowserView = f7App.get().photoBrowser(photos);
+	  photoBrowserView.open();
   }
 });
 

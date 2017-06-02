@@ -4,6 +4,7 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+ostrio:files@1.7.13
 meteor-base@1.0.4             # Packages every Meteor app needs to have
 mobile-experience@1.0.4       # Packages for a great mobile UX
 mongo@1.1.14                   # The database Meteor supports right now
@@ -45,4 +46,3 @@ tonystevens:meteor-framework7@1.2.0
 
 fortawesome:fontawesome
 momentjs:moment
-ostrio:files@1.7.13
