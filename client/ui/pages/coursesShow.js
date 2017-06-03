@@ -13,11 +13,11 @@ import './coursesShow.html';
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 const showFilterIconDep = new Deps.Dependency();
-const filter = new ReactiveVar('all');
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
   this.onTimelineTab = new ReactiveVar(false);
+  this.filter = new ReactiveVar('all');
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -27,6 +27,7 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
     }
     this.singleCourse.set(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
     this.onTimelineTab = new ReactiveVar(false);
+    this.filter.set('all');
   });
   if(Meteor.isClient){
     const app = new Framework7();
@@ -60,6 +61,9 @@ Template.coursesShow.helpers({
     return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
   },
   courseMaterials: function() {
+    if (!Template.instance().singleCourse.get().materials) {
+      return [];
+    }
     return findMaterialByIds(Template.instance().singleCourse.get().materials)
       .map((material) => {
         material.createDay = moment(material.createAt).format('D');
@@ -74,7 +78,8 @@ Template.coursesShow.helpers({
     return Template.instance().onTimelineTab.get();
   },
   isInCategory: (category) => {
-    return (category && category === filter.get()) || filter.get() === 'all';
+    const filterVal = Template.instance().filter.get();
+    return (category && category === filterVal) || filterVal === 'all';
   },
 });
 
@@ -151,7 +156,7 @@ Template.coursesShow.events({
 
 Template.popoverFilter.events({
   'click .show-timeline': (e, template) => {
-    filter.set($(e.target).attr('value'));
+    template.view.parentView._templateInstance.filter.set($(e.target).attr('value'));
     f7App.get().closeModal('.popover-filter');
   }
 });
