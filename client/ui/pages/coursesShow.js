@@ -153,7 +153,6 @@ Template.coursesShow.events({
 	  }
 	  const filesCursor = findFilesByIds(material.fileIds);
 	  const imgLinks = filesCursor.each().map((fileCursor) => fileCursor.link());
-	  console.log(imgLinks);
 	  const photos = {photos: imgLinks};
 	  const photoBrowserView = f7App.get().photoBrowser(photos);
 	  photoBrowserView.open();
