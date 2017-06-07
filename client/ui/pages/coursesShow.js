@@ -5,7 +5,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
-
 import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds, findFilesByIds } from '../../../lib/methods.js';
 
 import './coursesShow.html';
@@ -18,6 +17,13 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
   this.onTimelineTab = new ReactiveVar(false);
   this.filter = new ReactiveVar('all');
+	MeteorMathJax.defaultConfig = {
+		skipStartupTypeset: false,
+		showProcessingMessages: false,
+		tex2jax: {
+			inlineMath: [['$','$'],['\\(','\\)']]
+		}
+	};
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {

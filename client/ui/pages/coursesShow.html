@@ -58,7 +58,10 @@
               </div>
             </div>
             {{#if isInRole 'teacher'}}
-	            <a href="{{pathForAddMaterials}}">Add Material(s)</a>
+	            <a href="{{pathForAddMaterials}}">Add Material(s)</a><br>
+	            {{#mathjax}}
+		            <p>将下列各数分别填入相应的地方。-5， 3.7， 0， 300， -1.01， 889， $-4\frac{3}{7}$, $\frac{2}{11}$。整数：$\underline{\hspace{6cm}}$, 负有理数：$\underline{\hspace{6cm}}$，非负数：$\underline{\hspace{6cm}}$</p>
+	            {{/mathjax}}
             {{/if}}
           </div>
           <div id="course-students" class="tab">
