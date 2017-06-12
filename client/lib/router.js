@@ -49,6 +49,13 @@ FlowRouter.route('/courses/:_id/addMaterial', {
   },
 });
 
+FlowRouter.route('/courses/:_id/addProblemTemplate', {
+  name: 'courses.addProblemTemplate',
+  action() {
+    BlazeLayout.render('appLayout', { main: 'addProblemTemplate' });
+  },
+});
+
 FlowRouter.route('/messages', {
   name: 'messages.index',
   action() {

@@ -5,13 +5,15 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
-import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds, findFilesByIds } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse,
+  findMaterialByIds, findFilesByIds, findAllProblemsets, findAllKnowledgePoints } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 const showFilterIconDep = new Deps.Dependency();
+const backslashPlaceholder = '@backslash@';
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
@@ -24,6 +26,10 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
 			inlineMath: [['$','$'],['\\(','\\)']]
 		}
 	};
+  // const knowledgepoints = findAllKnowledgePoints();
+  // const problems = findAllProblemsets();
+  // console.log(knowledgepoints);
+  // console.log(problems);
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -64,7 +70,15 @@ Template.coursesShow.helpers({
   },
   pathForAddMaterials: function () {
     const _singleCourse = Template.instance().singleCourse.get();
-    return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
+    return FlowRouter.path('courses.addMaterial',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name});
+  },
+  pathForAddProblemTemplate: function () {
+    const _singleCourse = Template.instance().singleCourse.get();
+    return FlowRouter.path('courses.addProblemTemplate',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name, coursetype: _singleCourse.coursetype});
   },
   courseMaterials: function() {
     if (!Template.instance().singleCourse.get().materials) {
