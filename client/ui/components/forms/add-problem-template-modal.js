@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Blaze } from 'meteor/blaze'
 
-import { findCourseTypeById, findKnowledgePointsByIds } from '../../../../lib/methods.js';
+import { findCourseTypeById, findKnowledgePointsByIds, insertProblemTemplate, addSingleProblemTemplateToCourse } from '../../../../lib/methods.js';
 
 import './add-course-material-modal.html';
 
@@ -63,6 +63,8 @@ Template.addProblemTemplate.events({
     };
 
     console.log(problemTemplateAttributes);
+	  const problemTemplate = insertProblemTemplate(problemTemplateAttributes);
+	  addSingleProblemTemplateToCourse(template.singleCourse.get()._id, problemTemplate._id);
   },
 });
 
