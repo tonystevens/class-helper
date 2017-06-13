@@ -6,7 +6,8 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 import { updateCourse, deleteCourse, removeStudentFromCourse,
-  findMaterialByIds, findFilesByIds, findAllProblemsets, findAllKnowledgePoints } from '../../../lib/methods.js';
+  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds,
+  findAllProblemsets, findAllKnowledgePoints } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
@@ -26,6 +27,7 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
 			inlineMath: [['$','$'],['\\(','\\)']]
 		}
 	};
+  this.problemTemplates = new ReactiveVar(undefined);
   // const knowledgepoints = findAllKnowledgePoints();
   // const problems = findAllProblemsets();
   // console.log(knowledgepoints);
@@ -49,11 +51,15 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
       pagination:'.swiper-pagination'
     });
   }
+  this.problemTemplates.set(findProblemTemplatesByIds(this.singleCourse.get().problemtemplates));
 });
 
 Template.coursesShow.helpers({
   course: function() {
     return Template.instance().singleCourse.get();
+  },
+  problemTemplates: function() {
+    return Template.instance().problemTemplates.get();
   },
   studentIds() {
     const _singleCourse = Template.instance().singleCourse.get();
