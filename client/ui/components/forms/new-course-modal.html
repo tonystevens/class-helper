@@ -32,17 +32,32 @@
               </div>
             </div>
           </li>
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
-              <div class="item-inner">
-                <div class="item-title label">End Date</div>
-                <div class="item-input">
-                  <input type="text" name="endAt" placeholder="Course End Date" readonly id="course-end-date">
-                </div>
-              </div>
-            </div>
-          </li>
+	        <li>
+		        <div class="item-content">
+			        <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
+			        <div class="item-inner">
+				        <div class="item-title label">End Date</div>
+				        <div class="item-input">
+					        <input type="text" name="endAt" placeholder="Course End Date" readonly id="course-end-date">
+				        </div>
+			        </div>
+		        </div>
+	        </li>
+	        <li>
+		        <div class="item-content">
+			        <div class="item-media"><i class="icon fa fa-cogs"></i></div>
+			        <div class="item-inner">
+				        <div class="item-title label">Type</div>
+				        <div class="item-input">
+					        <select name="coursetype">
+						        {{#each type in allCourseTypes}}
+						          <option value="{{type._id}}">{{type.name}}</option>
+						        {{/each}}
+					        </select>
+				        </div>
+			        </div>
+		        </div>
+	        </li>
           <li class="align-top">
             <div class="item-content">
               <div class="item-media"><i class="icon fa fa-file-text-o"></i></div>

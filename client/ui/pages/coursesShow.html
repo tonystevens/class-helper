@@ -33,6 +33,10 @@
           <i class="fa fa-list-alt fa-lg"></i>
           <span class="tabbar-label" style="font-size: 12px">Timeline</span>
         </a>
+        <a href="#course-quiztemplate" class="tab-link">
+          <i class="fa fa-file-text-o fa-lg"></i>
+          <span class="tabbar-label" style="font-size: 12px">Quiz Template</span>
+        </a>
       </div>
     </div>
     <div class="page-content">
@@ -58,11 +62,12 @@
               </div>
             </div>
             {{#if isInRole 'teacher'}}
-	            <a href="{{pathForAddMaterials}}">Add Material(s)</a><br>
-	            {{#mathjax}}
-		            <p>将下列各数分别填入相应的地方。-5， 3.7， 0， 300， -1.01， 889， $-4\frac{3}{7}$, $\frac{2}{11}$。整数：$\underline{\hspace{6cm}}$, 负有理数：$\underline{\hspace{6cm}}$，非负数：$\underline{\hspace{6cm}}$</p>
-	            {{/mathjax}}
+              <p><a href="{{pathForAddMaterials}}" class="button button-round">Add Material(s)</a></p>
+              <p><a href="{{pathForAddProblemTemplate}}" class="button button-round">Add Quiz Template</a></p>
             {{/if}}
+            {{#mathjax}}
+	            <p>将下列各数分别填入相应的地方。-5， 3.7， 0， 300， -1.01， 889， $-4\frac{3}{7}$, $\frac{2}{11}$。整数：$\underline{\hspace{6cm}}$, 负有理数：$\underline{\hspace{6cm}}$，非负数：$\underline{\hspace{6cm}}$</p>
+            {{/mathjax}}
           </div>
           <div id="course-students" class="tab">
             <div class="content-block-title">Students
@@ -103,6 +108,56 @@
                 </div>
                 {{/if}}
               {{/each}}
+            </div>
+          </div>
+          <div id="course-quiztemplate" class="tab">
+            <div class="list-block">
+              <ul>
+                {{#each template in problemTemplates}}
+	                <li class="accordion-item"><a href="#" class="item-content item-link">
+		                <div class="item-inner">
+			                <div class="item-title"><b>{{template.name}}</b></div>
+		                </div></a>
+		                <div class="accordion-item-content">
+			                <div class="content-block">
+				                <p>{{template.description}}</p>
+				                <p>
+					                <div class="data-table card">
+						                <table>
+							                <thead>
+							                <tr>
+								                <th class="label-cell">知识点</th>
+								                <th class="tablet-only">题型</th>
+								                <th>难度</th>
+								                <th class="numeric-cell">题数</th>
+							                </tr>
+							                </thead>
+							                <tbody id="problem-template-container">
+							                {{#each config in template.configs}}
+								                <tr class="problem-set-config" id="{{uniqid}}">
+									                <td class="label-cell">
+										                {{getKnowledgePointNameById config.knowledgepoint._str}}
+									                </td>
+									                <td class="tablet-only">
+										                {{getProblemType config.type}}
+									                </td>
+									                <td class="label-cell">
+										                {{getProblemDifficulty config.difficulty}}
+									                </td>
+									                <td class="numeric-cell">
+										                {{config.number}}
+									                </td>
+								                </tr>
+							                {{/each}}
+							                </tbody>
+						                </table>
+					                </div>
+				                </p>
+			                </div>
+		                </div>
+	                </li>
+                {{/each}}
+              </ul>
             </div>
           </div>
         </div>

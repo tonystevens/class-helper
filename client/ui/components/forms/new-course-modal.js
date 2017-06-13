@@ -1,11 +1,15 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { insertCourse } from '../../../../lib/methods';
+import { insertCourse, findAllCourseTypes } from '../../../../lib/methods';
 
 import './new-course-modal.html';
 
 const f7App = new ReactiveVar(undefined);
+
+Template.newCourseModal.onCreated(() => {
+  this.coursetypes = new ReactiveVar(findAllCourseTypes());
+});
 
 Template.newCourseModal.onRendered(() => {
   if(Meteor.isClient){
@@ -22,6 +26,10 @@ Template.newCourseModal.onRendered(() => {
       minDate: new Date(),
     });
   }
+});
+
+Template.newCourseModal.helpers({
+  allCourseTypes: () => findAllCourseTypes(),
 });
 
 Template.newCourseModal.events({

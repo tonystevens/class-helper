@@ -5,13 +5,16 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
-import { updateCourse, deleteCourse, removeStudentFromCourse, findMaterialByIds, findFilesByIds } from '../../../lib/methods.js';
+import { updateCourse, deleteCourse, removeStudentFromCourse,
+  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds,
+  findAllProblemsets, findAllKnowledgePoints } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 const showFilterIconDep = new Deps.Dependency();
+const backslashPlaceholder = '@backslash@';
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
@@ -24,6 +27,9 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
 			inlineMath: [['$','$'],['\\(','\\)']]
 		}
 	};
+  this.problemTemplates = new ReactiveVar(undefined);
+  this.knowledgepoints = findAllKnowledgePoints();
+  // const problems = findAllProblemsets();
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -43,11 +49,15 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
       pagination:'.swiper-pagination'
     });
   }
+  this.problemTemplates.set(findProblemTemplatesByIds(this.singleCourse.get().problemtemplates));
 });
 
 Template.coursesShow.helpers({
   course: function() {
     return Template.instance().singleCourse.get();
+  },
+  problemTemplates: function() {
+    return Template.instance().problemTemplates.get();
   },
   studentIds() {
     const _singleCourse = Template.instance().singleCourse.get();
@@ -64,7 +74,15 @@ Template.coursesShow.helpers({
   },
   pathForAddMaterials: function () {
     const _singleCourse = Template.instance().singleCourse.get();
-    return FlowRouter.path('courses.addMaterial', {_id: _singleCourse._id}, {name: _singleCourse.name});
+    return FlowRouter.path('courses.addMaterial',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name});
+  },
+  pathForAddProblemTemplate: function () {
+    const _singleCourse = Template.instance().singleCourse.get();
+    return FlowRouter.path('courses.addProblemTemplate',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name, coursetype: _singleCourse.coursetype});
   },
   courseMaterials: function() {
     if (!Template.instance().singleCourse.get().materials) {
@@ -87,6 +105,51 @@ Template.coursesShow.helpers({
     const filterVal = Template.instance().filter.get();
     return (category && category === filterVal) || filterVal === 'all';
   },
+	getKnowledgePointNameById: (knowledgePointIdStr) => {
+  	const kps = Template.instance().knowledgepoints;
+  	if (kps && kps.length !== 0) {
+		  return kps.find(kp => kp._id._str === knowledgePointIdStr).name;
+	  }
+	},
+	getProblemType: (typeNum) => {
+  	let type = '';
+  	switch (Number(typeNum)) {
+		  case 0:
+		  	type ='填空题';
+		  	break;
+		  case 1:
+			  type ='解答题';
+			  break;
+		  case 2:
+			  type ='选择题';
+			  break;
+		  case 3:
+			  type ='计算题';
+			  break;
+		  default:
+			  type ='不限';
+			  break;
+	  }
+	  return type;
+	},
+	getProblemDifficulty: (difficultyNum) => {
+  	let difficulty = '';
+		switch (Number(difficultyNum)) {
+			case 0:
+				difficulty = '简单';
+				break;
+			case 1:
+				difficulty = '中等';
+				break;
+			case 2:
+				difficulty = '困难';
+				break;
+			default:
+				difficulty = '不限';
+				break;
+		}
+		return difficulty;
+	}
 });
 
 Template.coursesShow.events({
@@ -153,7 +216,6 @@ Template.coursesShow.events({
 	  }
 	  const filesCursor = findFilesByIds(material.fileIds);
 	  const imgLinks = filesCursor.each().map((fileCursor) => fileCursor.link());
-	  console.log(imgLinks);
 	  const photos = {photos: imgLinks};
 	  const photoBrowserView = f7App.get().photoBrowser(photos);
 	  photoBrowserView.open();

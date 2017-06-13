@@ -1,0 +1,91 @@
+<template name="addProblemTemplate">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        {{#if currentUser}}
+          {{#if isInRole 'teacher'}}
+            <a href="{{pathFor 'courses.show' _id=course._id}}"><i class="icon icon-back"></i></a>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="center">{{course.name}}</div>
+      <div class="right"><a href="#" class="save-template">Save</a></div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="content-block-title">模板标题</div>
+    <div class="list-block inset">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">标题</div>
+              <div class="item-input">
+                <input type="text" id="name">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">描述</div>
+              <div class="item-input">
+                <input type="text" id="description">
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="content-block-title">模板配置</div>
+    <div class="data-table card">
+      <table>
+        <thead>
+        <tr>
+          <th class="label-cell">知识点</th>
+          <th class="tablet-only">题型</th>
+          <th>难度</th>
+          <th class="numeric-cell">题数</th>
+          <th><a class="fa fa-plus color-green add-row"></a></th>
+        </tr>
+        </thead>
+        <tbody id="problem-template-container">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<template name="ProblemTemplateSingleRow">
+  <tr class="problem-set-config" id="{{uniqid}}">
+    <td class="label-cell">
+      <select id="{{uniqid}}-0">
+        {{#each point in knowledgepoints}}
+          <option value="{{point._id._str}}">{{point.name}}</option>
+        {{/each}}
+      </select>
+    </td>
+    <td class="tablet-only">
+      <select id="{{uniqid}}-1">
+        <option value="99" selected>不限</option>
+        <option value="0">填空题</option>
+        <option value="1">解答题</option>
+        <option value="2">选择题</option>
+        <option value="3">计算题</option>
+      </select>
+    </td>
+    <td class="label-cell">
+      <select id="{{uniqid}}-2">
+        <option value="99" selected>不限</option>
+        <option value="0">简单</option>
+        <option value="1">中等</option>
+        <option value="2">困难</option>
+      </select>
+    </td>
+    <td class="numeric-cell"><input type="number" min="1" class="short-text" placeholder="1" id="{{uniqid}}-3"></td>
+    <td>
+      <a class="fa fa-remove color-red remove-row"></a>
+    </td>
+  </tr>
+</template>
