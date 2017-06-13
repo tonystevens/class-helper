@@ -48,11 +48,12 @@ Template.addProblemTemplate.events({
     const configsAttribute = [];
     configs.forEach((row) => {
       const rowId = row.id;
+      const number = template.find(`#${rowId}-3`).value;
       configsAttribute.push({
         knowledgepoint: new Meteor.Collection.ObjectID(template.find(`#${rowId}-0`).value),
         type: template.find(`#${rowId}-1`).value,
-        difficulty: template.find(`#${rowId}-1`).value,
-        number: template.find(`#${rowId}-2`).value,
+        difficulty: template.find(`#${rowId}-2`).value,
+        number: Number(number <= 0 ? 1 : number),
       });
     });
 
@@ -62,10 +63,9 @@ Template.addProblemTemplate.events({
       configs: configsAttribute,
     };
 
-    console.log(problemTemplateAttributes);
-	  const problemTemplate = insertProblemTemplate(problemTemplateAttributes);
-	  const courseId = template.singleCourse.get()._id
-	  addSingleProblemTemplateToCourse(courseId, problemTemplate._id);
+    const problemTemplate = insertProblemTemplate(problemTemplateAttributes);
+    const courseId = template.singleCourse.get()._id;
+    addSingleProblemTemplateToCourse(courseId, problemTemplate._id);
     swal('模板保存成功', '', 'success');
     FlowRouter.go('courses.show', {_id: courseId});
   },

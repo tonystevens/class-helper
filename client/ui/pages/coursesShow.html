@@ -114,14 +114,48 @@
             <div class="list-block">
               <ul>
                 {{#each template in problemTemplates}}
-                  <li class="swipeout">
-                    <div class="swipeout-content item-content">
-                      <div class="item-inner">{{template.name}}</div>
-                    </div>
-                    <div class="swipeout-actions-right">
-                      <a href="#" class="action1">自动出题</a>
-                    </div>
-                  </li>
+	                <li class="accordion-item"><a href="#" class="item-content item-link">
+		                <div class="item-inner">
+			                <div class="item-title"><b>{{template.name}}</b></div>
+		                </div></a>
+		                <div class="accordion-item-content">
+			                <div class="content-block">
+				                <p>{{template.description}}</p>
+				                <p>
+					                <div class="data-table card">
+						                <table>
+							                <thead>
+							                <tr>
+								                <th class="label-cell">知识点</th>
+								                <th class="tablet-only">题型</th>
+								                <th>难度</th>
+								                <th class="numeric-cell">题数</th>
+							                </tr>
+							                </thead>
+							                <tbody id="problem-template-container">
+							                {{#each config in template.configs}}
+								                <tr class="problem-set-config" id="{{uniqid}}">
+									                <td class="label-cell">
+										                {{getKnowledgePointNameById config.knowledgepoint._str}}
+									                </td>
+									                <td class="tablet-only">
+										                {{getProblemType config.type}}
+									                </td>
+									                <td class="label-cell">
+										                {{getProblemDifficulty config.difficulty}}
+									                </td>
+									                <td class="numeric-cell">
+										                {{config.number}}
+									                </td>
+								                </tr>
+							                {{/each}}
+							                </tbody>
+						                </table>
+					                </div>
+				                </p>
+			                </div>
+		                </div>
+	                </li>
                 {{/each}}
               </ul>
             </div>

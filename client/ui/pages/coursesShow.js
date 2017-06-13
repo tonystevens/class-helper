@@ -28,10 +28,8 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
 		}
 	};
   this.problemTemplates = new ReactiveVar(undefined);
-  // const knowledgepoints = findAllKnowledgePoints();
+  this.knowledgepoints = findAllKnowledgePoints();
   // const problems = findAllProblemsets();
-  // console.log(knowledgepoints);
-  // console.log(problems);
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -107,6 +105,51 @@ Template.coursesShow.helpers({
     const filterVal = Template.instance().filter.get();
     return (category && category === filterVal) || filterVal === 'all';
   },
+	getKnowledgePointNameById: (knowledgePointIdStr) => {
+  	const kps = Template.instance().knowledgepoints;
+  	if (kps && kps.length !== 0) {
+		  return kps.find(kp => kp._id._str === knowledgePointIdStr).name;
+	  }
+	},
+	getProblemType: (typeNum) => {
+  	let type = '';
+  	switch (Number(typeNum)) {
+		  case 0:
+		  	type ='填空题';
+		  	break;
+		  case 1:
+			  type ='解答题';
+			  break;
+		  case 2:
+			  type ='选择题';
+			  break;
+		  case 3:
+			  type ='计算题';
+			  break;
+		  default:
+			  type ='不限';
+			  break;
+	  }
+	  return type;
+	},
+	getProblemDifficulty: (difficultyNum) => {
+  	let difficulty = '';
+		switch (Number(difficultyNum)) {
+			case 0:
+				difficulty = '简单';
+				break;
+			case 1:
+				difficulty = '中等';
+				break;
+			case 2:
+				difficulty = '困难';
+				break;
+			default:
+				difficulty = '不限';
+				break;
+		}
+		return difficulty;
+	}
 });
 
 Template.coursesShow.events({
