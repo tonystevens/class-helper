@@ -56,6 +56,13 @@ FlowRouter.route('/courses/:_id/addProblemTemplate', {
   },
 });
 
+FlowRouter.route('/courses/:_id/problemAutogen', {
+  name: 'courses.problemAutogen',
+  action() {
+    BlazeLayout.render('appLayout', { main: 'problemAutogen' });
+  },
+});
+
 FlowRouter.route('/messages', {
   name: 'messages.index',
   action() {

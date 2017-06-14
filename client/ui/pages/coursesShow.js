@@ -84,6 +84,12 @@ Template.coursesShow.helpers({
       {_id: _singleCourse._id},
       {name: _singleCourse.name, coursetype: _singleCourse.coursetype});
   },
+  pathForProblemAutogen: function (problemTemplate) {
+    const _singleCourse = Template.instance().singleCourse.get();
+    return FlowRouter.path('courses.problemAutogen',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name, problemTemplate: problemTemplate});
+  },
   courseMaterials: function() {
     if (!Template.instance().singleCourse.get().materials) {
       return [];

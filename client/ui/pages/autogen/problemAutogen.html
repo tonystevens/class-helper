@@ -1,0 +1,15 @@
+<template name="problemAutogen">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        {{#if currentUser}}
+          {{#if isInRole 'teacher'}}
+            <a href="{{pathFor 'courses.show' _id=course._id}}"><i class="icon icon-back"></i></a>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="center"></div>
+      <div class="right"><a href="#" class="save-pdf">PDF</a></div>
+    </div>
+  </div>
+</template>
