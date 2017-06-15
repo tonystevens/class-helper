@@ -12,4 +12,15 @@
       <div class="right"><a href="#" class="save-pdf">PDF</a></div>
     </div>
   </div>
+	<div class="page-content">
+		{{#each problem in problems}}
+			<div class="card">
+				<div class="card-content">
+					<div class="card-content-inner">
+						{{problem.index}}. {{problem.content}} {{#mathjax}}{{problem.content}}{{/mathjax}}
+					</div>
+				</div>
+			</div>
+		{{/each}}
+	</div>
 </template>
