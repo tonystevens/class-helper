@@ -17,7 +17,10 @@
 			<div class="card">
 				<div class="card-content">
 					<div class="card-content-inner">
-						{{problem.index}}. {{problem.content}} {{#mathjax}}{{problem.content}}{{/mathjax}}
+						{{problem.index}}.
+						{{#mathjax}}
+							<p>{{problem.content}}</p>
+						{{/mathjax}}
 					</div>
 				</div>
 			</div>

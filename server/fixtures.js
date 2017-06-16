@@ -7,29 +7,22 @@ Meteor.startup(() => {
     'findRandomProblemsets': (configs) => {
       let result = [];
       configs.forEach((config) => {
-        const query = [];
-        query.push({"knowledgepoint": { "$in": [
-	        {"$oid": config.knowledgepoint._str}
-        ]}});
-        if(config.difficulty !== '99') query.push({ "difficulty": config.difficulty });
-	      if(config.type !== '99') query.push({ "problemtype": config.type });
-
-	      const tempResult = ProblemSets.aggregate(
-		      [
-			      {
-				      $match: {
-					      $and: query
-				      }
-			      },
-			      {
-				      $sample: { size: parseInt(config.number) }
+	      const query = [];
+	      const knowledgepointId = new MongoInternals.NpmModule.ObjectID(config.knowledgepoint._str);
+	      query.push({knowledgepoint: knowledgepointId});
+	      if(config.difficulty !== '99') query.push({ difficulty: config.difficulty });
+	      if(config.type !== '99') query.push({ problemtype: config.type });
+      	const selector = [
+		      {
+			      $match: {
+				      $and: query
 			      }
-		      ]
-	      );
-	      console.log(query);
-	      console.log(config.knowledgepoint._str);
-	      console.log('====================');
-	      console.log(tempResult);
+		      },
+		      {
+			      $sample: { size: parseInt(config.number) }
+		      }
+	      ];
+	      const tempResult = ProblemSets.aggregate(selector);
 	      result = result.concat(tempResult);
       });
 
