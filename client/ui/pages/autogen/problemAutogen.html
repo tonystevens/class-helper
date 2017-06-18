@@ -18,12 +18,15 @@
 				<div class="card-content">
 					<div class="card-content-inner">
 						{{problem.index}}.
-						{{#mathjax}}
-							<p>{{problem.content}}</p>
-						{{/mathjax}}
+            {{> problemContent content=problem.content}}
 					</div>
 				</div>
 			</div>
 		{{/each}}
 	</div>
+</template>
+<template name="problemContent">
+  {{#mathjax}}
+    <p>{{content}}</p>
+  {{/mathjax}}
 </template>

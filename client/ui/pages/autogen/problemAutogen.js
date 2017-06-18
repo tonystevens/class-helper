@@ -36,31 +36,20 @@ Template.problemAutogen.helpers({
 	course: () => Template.instance().singleCourse.get(),
 	problems: () => {
 		Template.instance().problemsetsRetrieveDep.depend();
-		let results = [];
-		if (Template.instance().problemsets) {
-			const problemsets = Template.instance().problemsets.get();
-			if (problemsets) {
-				let idx = 1;
-				Template.instance().problemsetsToDisplay.set(problemsets.map((set) => {
-					let content = set.content.replace(/@backslash@/g, "\\", '\\');
-					return {
-						index: idx++,
-						content: content,
-					}
-				}));
-			}
-			results = Template.instance().problemsetsToDisplay.get();
-		}
-		return results;
+    let results = [];
+    if (Template.instance().problemsets) {
+      const problemsets = Template.instance().problemsets.get();
+      if (problemsets) {
+        let idx = 1;
+        results = problemsets.map((set) => {
+          return {
+            index: idx++,
+            content: set.content.replace(/@backslash@/g, "\\", '\\').toString(),
+          }
+        });
+      }
+    }
+    return results;
 	},
-	// getProblemContent: (index) => {
-	// 	if (Template.instance().problemsetsToDisplay.get() && index) {
-	// 		const sets = Template.instance().problemsetsToDisplay.get();
-	// 		const length = sets.length;
-	// 		console.log(sets);
-	// 		console.log(index);
-	// 		console.log(sets[(index - 1) % length]);
-	// 		return sets[(index - 1) % length].content;
-	// 	}
-	// },
 });
+
