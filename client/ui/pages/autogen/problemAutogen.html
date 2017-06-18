@@ -1,0 +1,32 @@
+<template name="problemAutogen">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        {{#if currentUser}}
+          {{#if isInRole 'teacher'}}
+            <a href="{{pathFor 'courses.show' _id=course._id}}"><i class="icon icon-back"></i></a>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="center"></div>
+      <div class="right"><a href="#" class="save-pdf">PDF</a></div>
+    </div>
+  </div>
+	<div class="page-content">
+		{{#each problem in problems}}
+			<div class="card">
+				<div class="card-content">
+					<div class="card-content-inner">
+						{{problem.index}}.
+            {{> problemContent content=problem.content}}
+					</div>
+				</div>
+			</div>
+		{{/each}}
+	</div>
+</template>
+<template name="problemContent">
+  {{#mathjax}}
+    <p>{{content}}</p>
+  {{/mathjax}}
+</template>

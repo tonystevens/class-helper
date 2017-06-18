@@ -47,3 +47,6 @@ tonystevens:meteor-framework7@1.2.0
 fortawesome:fontawesome
 momentjs:moment
 mrt:mathjax@0.7.1
+meteorhacks:aggregate
+
+markdown

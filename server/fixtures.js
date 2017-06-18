@@ -1,51 +1,32 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Courses } from '../lib/courses.js';
+import { ProblemSets } from '../lib/problemsets.js';
 
 Meteor.startup(() => {
-    if ( Courses.find().count() === 0 ) {
-      // const data = [{
-      //   name: 'Mathematics',
-      //   description: 'Fundamental Algebra from 1 to 100',
-      //   userId: 'bSeo4XEXh6TvHtjC6',
-      //   students: [
-      //     'QYEEce7LNB3rArzZt'
-      //   ],
-      //
-      // }, {
-      //   name: 'Music',
-      //   description: 'Hip hop fasion vs classic style',
-      //   userId: 'bSeo4XEXh6TvHtjC6',
-      //   students: [
-      //     'QYEEce7LNB3rArzZt'
-      //   ],
-      // }, {
-      //   name: 'English',
-      //   description: 'Advanced English with 1 on 1 oral practice',
-      //   userId: 'QYEEce7LNB3rArzZt',
-      //   students: [
-      //     'bSeo4XEXh6TvHtjC6', 'Nv5FTAneqNbmJLxh7'
-      //   ],
-      // }, {
-      //   name: 'Computer Science',
-      //   description: 'Introduction to Algorithm',
-      //   userId: 'Nv5FTAneqNbmJLxh7',
-      //   students: [
-      //     'bSeo4XEXh6TvHtjC6', 'QYEEce7LNB3rArzZt'
-      //   ],
-      // }];
-      // let timestamp = (new Date()).getTime();
-      //
-      // data.forEach((course) => {
-      //   Courses.insert({
-      //     name: course.name,
-      //     description: course.description,
-      //     userId: course.userId,
-      //     createAt: new Date(timestamp),
-      //     students: course.students
-      //   });
-      //   timestamp += 1;
-      // });
-    }
-  }
-);
+  Meteor.methods({
+    'findRandomProblemsets': (configs) => {
+      let result = [];
+      configs.forEach((config) => {
+	      const query = [];
+	      const knowledgepointId = new MongoInternals.NpmModule.ObjectID(config.knowledgepoint._str);
+	      query.push({knowledgepoint: knowledgepointId});
+	      if(config.difficulty !== '99') query.push({ difficulty: config.difficulty });
+	      if(config.type !== '99') query.push({ problemtype: config.type });
+      	const selector = [
+		      {
+			      $match: {
+				      $and: query
+			      }
+		      },
+		      {
+			      $sample: { size: parseInt(config.number) }
+		      }
+	      ];
+	      const tempResult = ProblemSets.aggregate(selector);
+	      result = result.concat(tempResult);
+      });
+
+      return result;
+    },
+  });
+});

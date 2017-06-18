@@ -14,19 +14,11 @@ import './coursesShow.html';
 const f7App = new ReactiveVar(undefined);
 const studentMap = new Map();
 const showFilterIconDep = new Deps.Dependency();
-const backslashPlaceholder = '@backslash@';
 
 Template.coursesShow.onCreated(function onTemplateCreated() {
   this.singleCourse = new ReactiveVar(Courses.findOne({ _id: FlowRouter.getParam('_id')}));
   this.onTimelineTab = new ReactiveVar(false);
   this.filter = new ReactiveVar('all');
-	MeteorMathJax.defaultConfig = {
-		skipStartupTypeset: false,
-		showProcessingMessages: false,
-		tex2jax: {
-			inlineMath: [['$','$'],['\\(','\\)']]
-		}
-	};
   this.problemTemplates = new ReactiveVar(undefined);
   this.knowledgepoints = findAllKnowledgePoints();
   // const problems = findAllProblemsets();
@@ -83,6 +75,12 @@ Template.coursesShow.helpers({
     return FlowRouter.path('courses.addProblemTemplate',
       {_id: _singleCourse._id},
       {name: _singleCourse.name, coursetype: _singleCourse.coursetype});
+  },
+  pathForProblemAutogen: function (problemTemplate) {
+    const _singleCourse = Template.instance().singleCourse.get();
+    return FlowRouter.path('courses.problemAutogen',
+      {_id: _singleCourse._id},
+      {name: _singleCourse.name, problemTemplate: problemTemplate});
   },
   courseMaterials: function() {
     if (!Template.instance().singleCourse.get().materials) {
