@@ -6,8 +6,7 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 import { updateCourse, deleteCourse, removeStudentFromCourse,
-  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds,
-  findAllProblemsets, findAllKnowledgePoints } from '../../../lib/methods.js';
+  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
@@ -20,8 +19,6 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
   this.onTimelineTab = new ReactiveVar(false);
   this.filter = new ReactiveVar('all');
   this.problemTemplates = new ReactiveVar(undefined);
-  this.knowledgepoints = findAllKnowledgePoints();
-  // const problems = findAllProblemsets();
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
@@ -34,8 +31,7 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
     this.filter.set('all');
   });
   if(Meteor.isClient){
-    const app = new Framework7();
-    f7App.set(app);
+    f7App.set(new Framework7());
     f7App.get().swiper('.swiper-container', {
       speed: 400,
       pagination:'.swiper-pagination'
@@ -217,6 +213,9 @@ Template.coursesShow.events({
 	  const photos = {photos: imgLinks};
 	  const photoBrowserView = f7App.get().photoBrowser(photos);
 	  photoBrowserView.open();
+  },
+  'click .customized-accordion-item': (e) => {
+    f7App.get().accordionToggle($(e.target).parents('li').eq(0));
   }
 });
 
