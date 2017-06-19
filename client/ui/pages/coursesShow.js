@@ -37,7 +37,9 @@ Template.coursesShow.onRendered(function onTemplateRendered() {
       pagination:'.swiper-pagination'
     });
   }
-  this.problemTemplates.set(findProblemTemplatesByIds(this.singleCourse.get().problemtemplates));
+  if (this.singleCourse.get().problemtemplates && this.singleCourse.get().problemtemplates.length) {
+    this.problemTemplates.set(findProblemTemplatesByIds(this.singleCourse.get().problemtemplates));
+  }
 });
 
 Template.coursesShow.helpers({
