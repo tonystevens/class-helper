@@ -6,7 +6,8 @@ import { coursesRenderHold } from '../launch-screen.js';
 
 import { Courses } from '../../../lib/courses.js';
 import { updateCourse, deleteCourse, removeStudentFromCourse,
-  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds } from '../../../lib/methods.js';
+  findMaterialByIds, findFilesByIds, findProblemTemplatesByIds,
+	findAllKnowledgePoints } from '../../../lib/methods.js';
 
 import './coursesShow.html';
 
@@ -19,6 +20,7 @@ Template.coursesShow.onCreated(function onTemplateCreated() {
   this.onTimelineTab = new ReactiveVar(false);
   this.filter = new ReactiveVar('all');
   this.problemTemplates = new ReactiveVar(undefined);
+  this.knowledgepoints = findAllKnowledgePoints();
 });
 
 Template.coursesShow.onRendered(function onTemplateRendered() {
