@@ -50,3 +50,5 @@ mrt:mathjax@0.7.1
 meteorhacks:aggregate
 
 markdown
+tap:i18n
+tap:i18n-bundler
