@@ -1,52 +1,93 @@
 {
-  "loginPage.signin": "Sign In",
-  "loginPage.email": "Email",
-  "loginPage.password": "Password",
-  "loginPage.forgetPassword": "Forgot your password?",
-  "loginPage.noAccountAndRegister": "Don’t have an account? Register",
+  "loginPage": {
+    "signin": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "forgetPassword": "Forgot your password?",
+    "noAccountAndRegister": "Don’t have an account? Register"
+  },
+  "headerPage": {
+    "classHelper": "Class Helper"
+  },
+  "registerPage": {
+    "createAccount": "Create an Account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "role": "Role",
+    "teacher": "Teacher",
+    "student": "Student",
+    "register": "Register",
+    "registeredAndSignIn": "If you already have an account, sign in",
+    "requiredMinimumLength": "Minimum password required length 6"
+  },
+  "courseIndexPage": {
+    "ownedCourses": "Owned Courses",
+    "joinedCourses": "Joined Courses"
+  },
+  "newCourseModal": {
+    "addNewCourse": "Add New Course",
+    "courseName": "Name",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "type": "Type",
+    "description": "Description",
+    "save": "Save",
+    "courseSaved": "New course added!"
+  },
+  "materialPage": {
+    "save": "Save",
+    "addMaterial": "Add Material",
+    "name": "Name",
+    "description": "Description",
+    "addAttachment": "Add Attachment(images(png,jpg,jpeg))",
+    "category": "Category",
+    "homework": "Homework",
+    "annotation": "Annotation",
+    "other": "Other",
+    "privacy": "Privacy",
+    "private": "Private",
+    "public": "Public"
+  },
+  "addStudentPage": {
+    "addStudent": "Add Student",
+    "selectStudent": "Select Students"
+  },
+  "coursePage": {
+    "courseInfo": "Course Info",
+    "students": "Students",
+    "tab": {
+      "info": "Info",
+      "students": "Students",
+      "timeline": "Timeline",
+      "template": "Quiz Template"
+    },
+    "addMaterial": "Add Material(s)",
+    "viewMaterial": "View",
+    "materialFileCount": "# of Attachments: ",
+    "addTemplate": "Add Quiz Template",
+    "knowledgePoint": "K. Point",
+    "problemType": "Type",
+    "difficulty": "Difficulty",
+    "problemNumber": "Number",
+    "generateProblem": "Generate"
+  },
+  "messageIndexPage": {
+    "messageCenter": "Message Center",
+    "ownedMessage": "Owned",
+    "participatedMessage": "Participated",
+    "newMessage": "New Message"
+  },
+  "messagePage": {
+    "recipient": "Recipient",
+    "recipientInput": "Type name to search",
+    "subject": "Subject",
+    "message": "Message",
+    "sendMessage": "Send"
+  },
+  "addTemplatePage": {
 
-  "headerPage.classHelper": "Class Helper",
-
-  "registerPage.createAccount": "Create an Account",
-  "registerPage.email": "Email",
-  "registerPage.password": "Password",
-  "registerPage.confirmPassword": "Confirm password",
-  "registerPage.firstName": "First Name",
-  "registerPage.lastName": "Last Name",
-  "registerPage.role": "Role",
-  "registerPage.teacher": "Teacher",
-  "registerPage.student": "Student",
-  "registerPage.register": "Register",
-  "registerPage.registeredAndSignIn": "If you already have an account, sign in",
-  "registerPage.requiredMinimumLength": "Minimum password required length 6",
-
-  "courseIndexPage.ownedCourses": "Owned Courses",
-  "courseIndexPage.joinedCourses": "Joined Courses",
-  "courseIndexPage.addNewCourse": "Add New Course",
-
-  "coursePage.courseName": "Name",
-  "coursePage.startDate": "Start Date",
-  "coursePage.endDate": "End Date",
-  "coursePage.description": "Description",
-  "coursePage.save": "Save",
-  "coursePage.courseSaved": "New course added!",
-
-  "materialPage.courseInfo": "Course Info",
-  "materialPage.addMaterial": "Add Material",
-  "materialPage.name": "Name",
-  "materialPage.description": "Description",
-  "materialPage.addAttachment": "Add Attachment(images(png,jpg,jpeg)，pdf，txt)",
-  "materialPage.addStudent": "Add Student",
-  "materialPage.timeline": "Timeline",
-
-  "messageIndexPage.messageCenter": "Message Center",
-  "messageIndexPage.ownedMessage": "Owned",
-  "messageIndexPage.participatedMessage": "Participated",
-  "messageIndexPage.newMessage": "New Message",
-
-  "messagePage.recipient": "Recipient",
-  "messagePage.recipientInput": "Type name to search",
-  "messagePage.subject": "Subject",
-  "messagePage.message": "Message",
-  "messagePage.sendMessage": "Send"
+  }
 }

@@ -1,0 +1,93 @@
+{
+  "loginPage": {
+    "signin": "登录",
+    "email": "邮箱",
+    "password": "密码",
+    "forgetPassword": "忘记密码？",
+    "noAccountAndRegister": "没有账号，我要注册"
+  },
+  "headerPage": {
+    "classHelper": "课程小助手"
+  },
+  "registerPage": {
+    "createAccount": "新建账号",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "firstName": "名",
+    "lastName": "姓",
+    "role": "角色",
+    "teacher": "老师",
+    "student": "学生",
+    "register": "注册",
+    "registeredAndSignIn": "我已注册，现在登录",
+    "requiredMinimumLength": "密码长度至少6位"
+  },
+  "courseIndexPage": {
+    "ownedCourses": "我的课程",
+    "joinedCourses": "我的课程"
+  },
+  "newCourseModal": {
+    "addNewCourse": "添加新课程",
+    "courseName": "课程名称",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "type": "类别",
+    "description": "课程简介",
+    "save": "保存",
+    "courseSaved": "课程已成功创建"
+  },
+  "materialPage": {
+    "save": "保存",
+    "addMaterial": "添加课程资料",
+    "name": "名称",
+    "description": "简介",
+    "addAttachment": "添加附件(图像(png,jpg,jpeg))",
+    "category": "类别",
+    "homework": "作业",
+    "annotation": "公告",
+    "other": "其他",
+    "privacy": "隐私",
+    "private": "个人文件",
+    "public": "公共文件"
+  },
+  "addStudentPage": {
+    "addStudent": "添加学生",
+    "selectStudent": "选择学生"
+  },
+  "coursePage": {
+    "courseInfo": "课程信息",
+    "students": "学生",
+    "tab": {
+      "info": "信息",
+      "students": "学生",
+      "timeline": "记录",
+      "template": "模板"
+    },
+    "addMaterial": "添加课程资料",
+    "viewMaterial": "查看",
+    "materialFileCount": "附件数量：",
+    "addTemplate": "添加习题模板",
+    "knowledgePoint": "知识点",
+    "problemType": "题型",
+    "difficulty": "难度",
+    "problemNumber": "题数",
+    "generateProblem": "出题"
+  },
+  "messageIndexPage": {
+    "messageCenter": "消息中心",
+    "ownedMessage": "我发起的消息",
+    "participatedMessage": "参与的消息",
+    "newMessage": "新建消息"
+  },
+  "messagePage": {
+    "recipient": "收件人",
+    "recipientInput": "输入自动搜索",
+    "subject": "标题",
+    "message": "消息正文",
+    "sendMessage": "发送"
+  },
+  "addTemplatePage": {
+
+  }
+}

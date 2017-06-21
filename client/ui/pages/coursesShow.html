@@ -7,7 +7,7 @@
             <a href="{{pathFor 'courses.index'}}"><i class="icon icon-back"></i></a>
           {{/if}}
         </div>
-        <div class="center">Course Info</div>
+        <div class="center">{{_ 'coursePage.courseInfo'}}</div>
         <div class="right">
           {{#if currentUser}}
             {{#if isTimelineTab}}
@@ -23,19 +23,19 @@
       <div class="toolbar-inner">
         <a href="#course-general-info" class="tab-link active">
           <i class="fa fa-info-circle fa-lg" style="padding-bottom: 0"></i>
-          <span class="tabbar-label" style="font-size: 12px">Info</span>
+          <span class="tabbar-label" style="font-size: 12px">{{_ 'coursePage.tab.info'}}</span>
         </a>
         <a href="#course-students" class="tab-link">
           <i class="fa fa-users fa-lg"></i>
-          <span class="tabbar-label" style="font-size: 12px">Students</span>
+          <span class="tabbar-label" style="font-size: 12px">{{_ 'coursePage.tab.students'}}</span>
         </a>
         <a href="#course-timeline" class="tab-link">
           <i class="fa fa-list-alt fa-lg"></i>
-          <span class="tabbar-label" style="font-size: 12px">Timeline</span>
+          <span class="tabbar-label" style="font-size: 12px">{{_ 'coursePage.tab.timeline'}}</span>
         </a>
         <a href="#course-quiztemplate" class="tab-link">
           <i class="fa fa-file-text-o fa-lg"></i>
-          <span class="tabbar-label" style="font-size: 12px">Quiz Template</span>
+          <span class="tabbar-label" style="font-size: 12px">{{_ 'coursePage.tab.template'}}</span>
         </a>
       </div>
     </div>
@@ -62,12 +62,12 @@
               </div>
             </div>
             {{#if isInRole 'teacher'}}
-              <p><a href="{{pathForAddMaterials}}" class="button button-round">Add Material(s)</a></p>
-              <p><a href="{{pathForAddProblemTemplate}}" class="button button-round">Add Quiz Template</a></p>
+              <p><a href="{{pathForAddMaterials}}" class="button button-round">{{_ 'coursePage.addMaterial'}}</a></p>
+              <p><a href="{{pathForAddProblemTemplate}}" class="button button-round">{{_ 'coursePage.addTemplate'}}</a></p>
             {{/if}}
           </div>
           <div id="course-students" class="tab">
-            <div class="content-block-title">Students
+            <div class="content-block-title">{{_ 'coursePage.students'}}
               {{#if isInRole 'teacher'}}
                 <i data-popup=".edit-course-add-students" class="icon fa fa-user-plus add-students open-popup"></i>
               {{/if}}
@@ -96,10 +96,10 @@
                   <div class="timeline-item-divider"></div>
                   <div class="timeline-item-content">
                     <div class="timeline-item-inner">
-                      <div class="timeline-item-time">{{material.createTime}}<a href="#" id="{{material._id}}" class="button color-green view-button">View</a></div>
+                      <div class="timeline-item-time">{{material.createTime}}<a href="#" id="{{material._id}}" class="button color-green view-button">{{_ 'coursePage.viewMaterial'}}</a></div>
                       <div class="timeline-item-title">{{material.name}}</div>
                       <div class="timeline-item-subtitle">{{material.description}}</div>
-                      <div class="timeline-item-text">{{material.fileNum}} files included.</div>
+                      <div class="timeline-item-text">{{_ 'coursePage.materialFileCount'}}{{material.fileNum}}</div>
                     </div>
                   </div>
                 </div>
@@ -125,10 +125,10 @@
 						                <table>
 							                <thead>
 							                <tr>
-								                <th class="label-cell">知识点</th>
-								                <th class="tablet-only">题型</th>
-								                <th>难度</th>
-								                <th class="numeric-cell">题数</th>
+								                <th class="label-cell">{{_ 'coursePage.knowledgePoint'}}</th>
+								                <th class="tablet-only">{{_ 'coursePage.problemType'}}</th>
+								                <th>{{_ 'coursePage.difficulty'}}</th>
+								                <th class="numeric-cell">{{_ 'coursePage.problemNumber'}}</th>
 							                </tr>
 							                </thead>
 							                <tbody id="problem-template-container">
@@ -156,7 +156,7 @@
                           <div class="row">
                             <div class="col-50"></div>
                             <div class="col-50">
-                              <a href="{{pathForProblemAutogen template}}" class="button button-round button-green">出题</a>
+                              <a href="{{pathForProblemAutogen template}}" class="button button-round button-green">{{_ 'coursePage.generateProblem'}}</a>
                             </div>
                           </div>
                         </p>

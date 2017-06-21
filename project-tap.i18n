@@ -1,9 +1,0 @@
-{
-  "translation_function_name": "__",
-  "helper_name": "_",
-  "languages_files_dir": "i18n",
-  "namespace": null,
-  "supported_languages": ["en","cn"],
-  "cdn_path": "i18n",
-  "offline-support": true
-}

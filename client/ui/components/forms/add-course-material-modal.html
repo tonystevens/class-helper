@@ -9,16 +9,16 @@
 				{{/if}}
 			</div>
 			<div class="center">{{course.name}}</div>
-			<div class="right"><a href="#" class="save-material">Save</a></div>
+			<div class="right"><a href="#" class="save-material">{{_ 'materialPage.save'}}</a></div>
 		</div>
 	</div>
 	<div class="page-content">
-		<div class="content-block-title">Add Material</div>
+		<div class="content-block-title">{{_ 'materialPage.addMaterial'}}</div>
 		<form id="materialForm" class="list-block">
 			<ul>
 				<li>
 					<div class="item-content">
-						<div class="item-title label">Name</div>
+						<div class="item-title label">{{_ 'materialPage.name'}}</div>
 						<div class="item-inner">
 							<div class="item-input">
 								<input type="text" name="materialName">
@@ -28,7 +28,7 @@
 				</li>
 				<li>
 					<div class="item-content">
-            <div class="item-title label">Description</div>
+            <div class="item-title label">{{_ 'materialPage.description'}}</div>
 						<div class="item-inner">
 							<div class="item-input">
 								<input type="text" name="materialDescription">
@@ -38,12 +38,12 @@
 				</li>
 				<li>
 					<div class="item-content">
-            <div class="item-title label">Privacy</div>
+            <div class="item-title label">{{_ 'materialPage.privacy'}}</div>
 						<div class="item-inner">
 							<div class="item-input">
                 <select name="privacy">
-                  <option value="private">Private</option>
-                  <option value="public" selected>Public</option>
+                  <option value="private">{{_ 'materialPage.private'}}</option>
+                  <option value="public" selected>{{_ 'materialPage.public'}}</option>
                 </select>
 							</div>
 						</div>
@@ -51,13 +51,13 @@
 				</li>
         <li>
           <div class="item-content">
-            <div class="item-title label">Category</div>
+            <div class="item-title label">{{_ 'materialPage.category'}}</div>
             <div class="item-inner">
               <div class="item-input">
                 <select name="category">
-                  <option value="homework" selected>Homework</option>
-                  <option value="annotation">Annotation</option>
-                  <option value="other">Other</option>
+                  <option value="homework" selected>{{_ 'materialPage.homework'}}</option>
+                  <option value="annotation">{{_ 'materialPage.annotation'}}</option>
+                  <option value="other">{{_ 'materialPage.other'}}</option>
                 </select>
               </div>
             </div>
@@ -89,7 +89,7 @@
       <div class="sm-row">
         <input class="invisible" id="userAttachment" type="file" name="userAttachment" required="" multiple="">
         <div class="upload-icon" id="uploadIcon"><i class="fa fa-cloud-upload"></i>
-          <h2>Add Attachment(s)</h2>
+          <h2>{{_ 'materialPage.addAttachment'}}</h2>
         </div>
       </div>
 		{{else}}
