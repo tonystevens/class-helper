@@ -13,13 +13,13 @@
     </div>
   </div>
   <div class="page-content">
-    <div class="content-block-title">模板标题</div>
+    <div class="content-block-title">{{_ 'templatePage.templateInfo'}}</div>
     <div class="list-block inset">
       <ul>
         <li>
           <div class="item-content">
             <div class="item-inner">
-              <div class="item-title label">标题</div>
+              <div class="item-title label">{{_ 'templatePage.title'}}</div>
               <div class="item-input">
                 <input type="text" id="name">
               </div>
@@ -29,7 +29,7 @@
         <li>
           <div class="item-content">
             <div class="item-inner">
-              <div class="item-title label">描述</div>
+              <div class="item-title label">{{_ 'templatePage.description'}}</div>
               <div class="item-input">
                 <input type="text" id="description">
               </div>
@@ -38,15 +38,15 @@
         </li>
       </ul>
     </div>
-    <div class="content-block-title">模板配置</div>
+    <div class="content-block-title">{{_ 'templatePage.templateConfig'}}</div>
     <div class="data-table card">
       <table>
         <thead>
         <tr>
-          <th class="label-cell">知识点</th>
-          <th class="tablet-only">题型</th>
-          <th>难度</th>
-          <th class="numeric-cell">题数</th>
+          <th class="label-cell">{{_ 'templatePage.knowledgePoint'}}</th>
+          <th class="tablet-only">{{_ 'templatePage.problemType'}}</th>
+          <th>{{_ 'templatePage.difficulty'}}</th>
+          <th class="numeric-cell">{{_ 'templatePage.number'}}</th>
           <th><a class="fa fa-plus color-green add-row"></a></th>
         </tr>
         </thead>

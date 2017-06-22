@@ -87,7 +87,14 @@
     "message": "消息正文",
     "sendMessage": "发送"
   },
-  "addTemplatePage": {
-
+  "templatePage": {
+    "templateInfo": "模板信息",
+    "title": "标题",
+    "description": "描述",
+    "templateConfig": "模板配置",
+    "knowledgePoint": "知识点",
+    "problemType": "题型",
+    "difficulty": "难度",
+    "number": "题数"
   }
 }

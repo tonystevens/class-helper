@@ -87,7 +87,14 @@
     "message": "Message",
     "sendMessage": "Send"
   },
-  "addTemplatePage": {
-
+  "templatePage": {
+    "templateInfo": "Template Info",
+    "title": "Title",
+    "description": "Description",
+    "templateConfig": "Template Configuration",
+    "knowledgePoint": "K. Point",
+    "problemType": "Type",
+    "difficulty": "Difficulty",
+    "number": "Number"
   }
 }
