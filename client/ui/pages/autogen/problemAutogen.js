@@ -20,6 +20,7 @@ Template.problemAutogen.onCreated(function onTemplateCreated() {
 		this.problemsets.set(val);
 		this.problemsetsRetrieveDep.changed();
 	});
+  MeteorMathJax.sourceUrl = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 	MeteorMathJax.defaultConfig = {
 		skipStartupTypeset: false,
 		showProcessingMessages: true,

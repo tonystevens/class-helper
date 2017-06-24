@@ -2,7 +2,7 @@
   <div class="page-content">
     {{#if isInRole 'teacher'}}
       <div class="content-block-title">
-        Owned Courses
+        {{_ 'courseIndexPage.ownedCourses'}}
         <a href="#newCourseModal" data-popup=".new-course-modal" class="icon btn fa fa-plus-circle add-owned-course open-popup"></a>
       </div>
       <div class="list-block sortable">
@@ -26,7 +26,7 @@
       </div>
     {{else if isInRole 'student'}}
       <div class="content-block-title">
-        Joined Courses
+	      {{_ 'courseIndexPage.joinedCourses'}}
       </div>
       <div class="list-block sortable">
         <ul>

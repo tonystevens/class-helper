@@ -39,7 +39,7 @@ Template.newCourseModal.events({
   'click .save-course': () => {
     const formData = f7App.get().formToData($('#new_course_form'));
     insertCourse(formData);
-    swal("Good job!", "You added a new course!", "success");
+    swal(TAPi18n.__('newCourseModal.courseSaved'));
     $('#new_course_form')[0].reset();
   }
 });

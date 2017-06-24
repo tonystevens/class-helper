@@ -1,7 +1,7 @@
 <template name="messagesIndex">
   <div class="page-content">
   {{#if isInRole 'teacher'}}
-    <div class="content-block-title">Owned</div>
+    <div class="content-block-title">{{_ 'messageIndexPage.ownedMessage'}}</div>
     <div class="list-block media-list">
       <ul>
         {{#each channel in ownedChannelsArray}}
@@ -19,7 +19,7 @@
       </ul>
     </div>
   {{/if}}
-    <div class="content-block-title">Participated</div>
+    <div class="content-block-title">{{_ 'messageIndexPage.participatedMessage'}}</div>
     <div class="list-block media-list">
       <ul>
         {{#each channel in participatedChannelArray}}

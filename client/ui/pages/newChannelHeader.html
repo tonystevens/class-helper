@@ -1,7 +1,7 @@
 <template name="newChannelHeader">
   <header class="bar bar-nav">
     <h1 class="title">
-      <span>New Message</span>
+      <span>{{_ 'messageIndexPage.newMessage'}}</span>
     </h1>
     {{#if currentUser}}
       <a href="{{pathFor 'messages.index'}}" id="back-to-message" class="btn btn-link pull-left"><span class="icon icon-left"></span></a>

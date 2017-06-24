@@ -2,8 +2,8 @@
   <div class="navbar">
     <div class="navbar-inner">
       <div class="left"><a class="close-popup"><i class="icon fa fa-angle-left fa-2x"></i></a></div>
-      <div class="center">Add New Course</div>
-      <div class="right"><a class="close-popup save-course">Save</a></div>
+      <div class="center">{{_ 'newCourseModal.addNewCourse'}}</div>
+      <div class="right"><a class="close-popup save-course">{{_ 'newCourseModal.save'}}</a></div>
     </div>
   </div>
   <div class="page-content" style="background-color: #eaf1fc;">
@@ -14,9 +14,9 @@
             <div class="item-content">
               <div class="item-media"><i class="icon fa fa-book"></i></div>
               <div class="item-inner">
-                <div class="item-title label">Name</div>
+                <div class="item-title label">{{_ 'newCourseModal.courseName'}}</div>
                 <div class="item-input">
-                  <input type="text" name="name" placeholder="Course Name">
+                  <input type="text" name="name">
                 </div>
               </div>
             </div>
@@ -25,9 +25,9 @@
             <div class="item-content">
               <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
               <div class="item-inner">
-                <div class="item-title label">Start Date</div>
+                <div class="item-title label">{{_ 'newCourseModal.startDate'}}</div>
                 <div class="item-input">
-                  <input type="text" name="startAt" placeholder="Course Start Date" readonly id="course-start-date">
+                  <input type="text" name="startAt" readonly id="course-start-date">
                 </div>
               </div>
             </div>
@@ -36,9 +36,9 @@
 		        <div class="item-content">
 			        <div class="item-media"><i class="icon fa fa-calendar-check-o"></i></div>
 			        <div class="item-inner">
-				        <div class="item-title label">End Date</div>
+				        <div class="item-title label">{{_ 'newCourseModal.endDate'}}</div>
 				        <div class="item-input">
-					        <input type="text" name="endAt" placeholder="Course End Date" readonly id="course-end-date">
+					        <input type="text" name="endAt" readonly id="course-end-date">
 				        </div>
 			        </div>
 		        </div>
@@ -47,7 +47,7 @@
 		        <div class="item-content">
 			        <div class="item-media"><i class="icon fa fa-cogs"></i></div>
 			        <div class="item-inner">
-				        <div class="item-title label">Type</div>
+				        <div class="item-title label">{{_ 'newCourseModal.type'}}</div>
 				        <div class="item-input">
 					        <select name="coursetype">
 						        {{#each type in allCourseTypes}}
@@ -62,7 +62,7 @@
             <div class="item-content">
               <div class="item-media"><i class="icon fa fa-file-text-o"></i></div>
               <div class="item-inner">
-                <div class="item-title label">Description</div>
+                <div class="item-title label">{{_ 'newCourseModal.description'}}</div>
                 <div class="item-input">
                   <textarea name="description"></textarea>
                 </div>
